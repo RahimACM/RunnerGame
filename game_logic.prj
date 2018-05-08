@@ -1,0 +1,3 @@
+vhdl work "SR.vhd"
+vhdl work "LFSR.vhd"
+vhdl work "runner_toplevel_wiring.vhd"
