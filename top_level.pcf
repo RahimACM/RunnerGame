@@ -1,5 +1,5 @@
 //! **************************************************************************
-// Written by: Map P.20131013 on Mon May 07 19:30:38 2018
+// Written by: Map P.20131013 on Thu May 10 18:34:22 2018
 //! **************************************************************************
 
 SCHEMATIC START;
@@ -21,9 +21,11 @@ COMP "AN<0>" LOCATE = SITE "P17" LEVEL 1;
 COMP "AN<1>" LOCATE = SITE "P18" LEVEL 1;
 COMP "AN<2>" LOCATE = SITE "N15" LEVEL 1;
 COMP "AN<3>" LOCATE = SITE "N16" LEVEL 1;
-COMP "player_input<0>" LOCATE = SITE "C4" LEVEL 1;
+COMP "player_input<0>" LOCATE = SITE "T9" LEVEL 1;
 COMP "player_input<1>" LOCATE = SITE "C9" LEVEL 1;
 COMP "player_input<2>" LOCATE = SITE "A8" LEVEL 1;
+COMP "player_input<3>" LOCATE = SITE "D9" LEVEL 1;
+COMP "player_input<4>" LOCATE = SITE "C4" LEVEL 1;
 COMP "rgb<0>" LOCATE = SITE "R7" LEVEL 1;
 COMP "rgb<1>" LOCATE = SITE "T7" LEVEL 1;
 COMP "rgb<2>" LOCATE = SITE "P8" LEVEL 1;

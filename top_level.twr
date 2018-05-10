@@ -37,16 +37,16 @@ Clock Clk to Pad
             |Max (slowest) clk|  Process   |Min (fastest) clk|  Process   |                  | Clock  |
 Destination |  (edge) to PAD  |   Corner   |  (edge) to PAD  |   Corner   |Internal Clock(s) | Phase  |
 ------------+-----------------+------------+-----------------+------------+------------------+--------+
-HS          |         5.979(R)|      SLOW  |         3.694(R)|      FAST  |pixel_clk         |   0.000|
-VS          |         6.561(R)|      SLOW  |         4.052(R)|      FAST  |pixel_clk         |   0.000|
-rgb<0>      |        13.002(R)|      SLOW  |         5.022(R)|      FAST  |pixel_clk         |   0.000|
-rgb<1>      |        15.439(R)|      SLOW  |         4.902(R)|      FAST  |pixel_clk         |   0.000|
-rgb<2>      |        15.179(R)|      SLOW  |         4.883(R)|      FAST  |pixel_clk         |   0.000|
-rgb<3>      |        15.360(R)|      SLOW  |         4.937(R)|      FAST  |pixel_clk         |   0.000|
-rgb<4>      |        15.284(R)|      SLOW  |         4.897(R)|      FAST  |pixel_clk         |   0.000|
-rgb<5>      |        15.372(R)|      SLOW  |         4.861(R)|      FAST  |pixel_clk         |   0.000|
-rgb<6>      |        15.180(R)|      SLOW  |         4.880(R)|      FAST  |pixel_clk         |   0.000|
-rgb<7>      |        15.064(R)|      SLOW  |         4.774(R)|      FAST  |pixel_clk         |   0.000|
+HS          |         7.288(R)|      SLOW  |         4.504(R)|      FAST  |pixel_clk         |   0.000|
+VS          |         6.815(R)|      SLOW  |         4.194(R)|      FAST  |pixel_clk         |   0.000|
+rgb<0>      |        21.641(R)|      SLOW  |         6.323(R)|      FAST  |pixel_clk         |   0.000|
+rgb<1>      |        21.502(R)|      SLOW  |         6.251(R)|      FAST  |pixel_clk         |   0.000|
+rgb<2>      |        20.928(R)|      SLOW  |         5.868(R)|      FAST  |pixel_clk         |   0.000|
+rgb<3>      |        21.099(R)|      SLOW  |         6.003(R)|      FAST  |pixel_clk         |   0.000|
+rgb<4>      |        21.433(R)|      SLOW  |         6.261(R)|      FAST  |pixel_clk         |   0.000|
+rgb<5>      |        21.036(R)|      SLOW  |         5.988(R)|      FAST  |pixel_clk         |   0.000|
+rgb<6>      |        20.954(R)|      SLOW  |         5.794(R)|      FAST  |pixel_clk         |   0.000|
+rgb<7>      |        21.102(R)|      SLOW  |         5.858(R)|      FAST  |pixel_clk         |   0.000|
 ------------+-----------------+------------+-----------------+------------+------------------+--------+
 
 Clock to Setup on destination clock Clk
@@ -54,18 +54,18 @@ Clock to Setup on destination clock Clk
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-Clk            |    7.117|         |         |         |
+Clk            |    5.371|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
-Analysis completed Mon May 07 19:31:01 2018 
+Analysis completed Wed May 09 13:23:56 2018 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 227 MB
+Peak Memory Usage: 366 MB
 
 
 

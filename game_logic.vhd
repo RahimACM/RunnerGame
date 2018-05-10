@@ -39,9 +39,10 @@ entity game_logic is
    port ( Clk          : in std_logic;
 	       --Only one bit of player_input should be high at any time, and "000" means no input detected.
 			 --"100 will be "Up", "010" will be "Down", and "001" will be "Reset".
-			 player_input : in std_logic_vector (2 downto 0);
+			 player_input : in std_logic_vector (4 downto 0);
 			 -- '1' when paused, '0' when played
 			 paused 		  : in std_logic;
+			 h_player_loc : out STD_LOGIC_VECTOR (1 downto 0);	
 			 player_loc   : out std_logic_vector (3 downto 0);
 			 --External signals for locations of obstacles that will be drawn by another module.
 			 obst_locs_1  : out std_logic_vector (31 downto 0);
@@ -61,7 +62,7 @@ architecture Behavioral of game_logic is
 --This constant represents the frequency of the input clock signal. In this case, it's the "actual" value of the
 --pixel clock, approximately 25.174 MHz. This constant is used in a process below to create an enable
 --signal to update game logic with the desired frequency (currently 8Hz).
-constant clock_freq : integer := 25184000;
+constant clock_freq : integer := 25185000;
 
 --This constant represents our desired frequency of game logic updates.
 constant game_freq : integer := 8;
@@ -83,7 +84,7 @@ end component;
 --which then decides which of the four lanes the new obstacle will go to.
 component LFSR
    port (game_clock : in std_logic;
-				 enable : in STD_LOGIC;
+  				 enable : in STD_LOGIC;
 	            dead : in std_logic;
 	           reset : in std_logic;
 	        obst_out : out std_logic);
@@ -112,6 +113,7 @@ signal lose_state : std_logic := '0';
 --MSB high means player is in top lane (Lane 1), and LSB being high means player is in bottom lane (Lane 4).
 --Clearly, only one bit in this 4-bit bus should be high at any time.
 signal current_player_location : std_logic_vector (3 downto 0) := "0100";
+signal current_h_player_location : std_logic_vector (1 downto 0) := "00";
 
 --lane1 is the topmost lane, and lane4 is the bottom lane.
 --Each lane is modeled as a shift register that has an obstacle generated at the MSB,
@@ -227,35 +229,210 @@ lane_selector : pick_a_lane
 		end if;
 	end process game_freq_gen;
 
+
    --This process is responsible for moving the player up and down within their zone (between the four possible locations).
    --It should run whenever a change in player input is detected, because that's when the user wants to move their character.
-   player_movement : process(enable_game_update, player_input)
+	player_movement : process(enable_game_update, player_input)
    begin
 	   if (rising_edge(enable_game_update) and (paused = '0')) then
-	      --This first if statement lists the actions that should take place when the player is in Lane 1. They can only move down.
-         if ((current_player_location = "1000") and (player_input = "010")) then
-		      current_player_location <= "0100"; --moves player down to Lane 2.
-	   	--This elsif statement lists the movements that should take place when the player is in Lane 2.
-	   	elsif (current_player_location = "0100") then
-		      if (player_input = "100") then
-			      current_player_location <= "1000"; --moves player up to Lane 1.
-		   	elsif (player_input = "010") then
-			      current_player_location <= "0010"; --moves player down to Lane 3.
-			   end if;
-	      --This elsif statement lists the movements that should take place when the player is in Lane 3.
-	   	elsif (current_player_location = "0010") then
-		      if (player_input = "100") then
-			      current_player_location <= "0100"; --moves player up to Lane 2.
-			   elsif (player_input = "010") then
-			      current_player_location <= "0001"; --moves player down to Lane 4.
-			   end if;
-		   --This else statement lists the movements that should take place when the player is in Lane 4. They can only move up.
-		   elsif ((current_player_location = "0001") and (player_input = "100")) then
-		      current_player_location <= "0010"; --moves player up to Lane 3.
-		   end if;
-	   	player_loc <= current_player_location;
+			case (current_player_location) is
+				when "1000" => 
+					case (current_h_player_location) is
+						when "01" => 
+							if (player_input = "10000") then
+								current_player_location <= "1000";
+								current_h_player_location <= "00";
+							elsif (player_input = "01000") then
+								current_player_location <= "1000";
+								current_h_player_location <= "10";
+							elsif (player_input = "00010") then
+								current_player_location <= "0100";
+								current_h_player_location <= "01";
+							else 
+								current_player_location <= "1000";
+								current_h_player_location <= "01";
+							end if;
+						when "00" =>
+							if (player_input = "01000") then
+								current_player_location <= "1000";
+								current_h_player_location <= "01";
+							elsif (player_input = "00010") then
+								current_player_location <= "0100";
+								current_h_player_location <= "00";
+							else 
+								current_player_location <= "1000";
+								current_h_player_location <= "00";
+							end if;
+						when "10" =>
+							if (player_input = "10000") then
+								current_player_location <= "1000";
+								current_h_player_location <= "01";
+							elsif (player_input = "00010") then
+								current_player_location <= "0100";
+								current_h_player_location <= "10";
+							else 
+								current_player_location <= "1000";
+								current_h_player_location <= "10";
+							end if;
+						when others => 
+							current_player_location <= current_player_location;
+							current_h_player_location <= current_h_player_location;
+						end case;
+				when "0100" => 
+					case (current_h_player_location) is
+						when "01" => 
+							if (player_input = "01000") then
+								current_player_location <= "0100";
+								current_h_player_location <= "10";
+							elsif (player_input = "10000") then
+								current_player_location <= "0100";
+								current_h_player_location <= "00";
+							elsif (player_input = "00100") then
+								current_player_location <= "1000";
+								current_h_player_location <= "01";
+							elsif (player_input = "00010") then
+								current_player_location <= "0010";
+								current_h_player_location <= "01";
+							else 
+								current_player_location <= "0100";
+								current_h_player_location <= "01";
+							end if;
+						when "00" =>
+							if (player_input = "01000") then
+								current_player_location <= "0100";
+								current_h_player_location <= "01";
+							elsif (player_input = "00100") then
+								current_player_location <= "1000";
+								current_h_player_location <= "00";
+							elsif (player_input = "00010") then
+								current_player_location <= "0010";
+								current_h_player_location <= "00";
+							else 
+								current_player_location <= "0100";
+								current_h_player_location <= "00";
+							end if;
+						when "10" =>
+							if (player_input = "10000") then
+								current_player_location <= "0100";
+								current_h_player_location <= "01";
+							elsif (player_input = "00100") then
+								current_player_location <= "1000";
+								current_h_player_location <= "10";
+							elsif (player_input = "00010") then
+								current_player_location <= "0010";
+								current_h_player_location <= "10";
+							else 
+								current_player_location <= "0100";
+								current_h_player_location <= "10";
+							end if;
+						when others => 
+							current_player_location <= current_player_location;
+							current_h_player_location <= current_h_player_location;
+						end case;
+				when "0010" =>
+					case (current_h_player_location) is
+						when "01" => 
+							if (player_input = "01000") then
+								current_player_location <= "0010";
+								current_h_player_location <= "10";
+							elsif (player_input = "10000") then
+								current_player_location <= "0010";
+								current_h_player_location <= "00";
+							elsif (player_input = "00100") then
+								current_player_location <= "0100";
+								current_h_player_location <= "01";
+							elsif (player_input = "00010") then
+								current_player_location <= "0001";
+								current_h_player_location <= "01";
+							else 
+								current_player_location <= "0010";
+								current_h_player_location <= "01";
+							end if;
+						when "00" =>
+							if (player_input = "01000") then
+								current_player_location <= "0010";
+								current_h_player_location <= "01";
+							elsif (player_input = "00100") then
+								current_player_location <= "0100";
+								current_h_player_location <= "00";
+							elsif (player_input = "00010") then
+								current_player_location <= "0001";
+								current_h_player_location <= "00";
+							else 
+								current_player_location <= "0010";
+								current_h_player_location <= "00";
+							end if;
+						when "10" =>
+							if (player_input = "10000") then
+								current_player_location <= "0010";
+								current_h_player_location <= "01";
+							elsif (player_input = "00100") then
+								current_player_location <= "0100";
+								current_h_player_location <= "10";
+							elsif (player_input = "00010") then
+								current_player_location <= "0001";
+								current_h_player_location <= "10";
+							else 
+								current_player_location <= "0010";
+								current_h_player_location <= "10";
+							end if;
+						when others =>
+							current_player_location <= current_player_location;
+							current_h_player_location <= current_h_player_location;							
+					end case;
+				when "0001" => 
+					case (current_h_player_location) is
+						when "01" => 
+							if (player_input = "01000") then
+								current_player_location <= "0001";
+								current_h_player_location <= "10";
+							elsif (player_input = "10000") then
+								current_player_location <= "0001";
+								current_h_player_location <= "00";
+							elsif (player_input = "00100") then
+								current_player_location <= "0010";
+								current_h_player_location <= "01";							
+							else 
+								current_player_location <= "0001";
+								current_h_player_location <= "01";
+							end if;
+						when "00" =>
+							if (player_input = "01000") then
+								current_player_location <= "0001";
+								current_h_player_location <= "01";
+							elsif (player_input = "00100") then
+								current_player_location <= "0010";
+								current_h_player_location <= "00";							
+							else 
+								current_player_location <= "0001";
+								current_h_player_location <= "00";
+							end if;
+						when "10" =>
+							current_player_location <= "0001";
+							current_h_player_location <= "10";
+							if (player_input = "10000") then
+								current_player_location <= "0001";
+								current_h_player_location <= "01";
+							elsif (player_input = "00100") then
+								current_player_location <= "0010";
+								current_h_player_location <= "10";						
+							else 
+								current_player_location <= "0001";
+								current_h_player_location <= "10";
+							end if;
+						when others =>
+							current_player_location <= current_player_location;
+							current_h_player_location <= current_h_player_location;
+						end case; 
+			when others =>
+				current_player_location <= current_player_location;
+				current_h_player_location <= current_h_player_location;
+			end case;
+			player_loc <= current_player_location;
+			h_player_loc <= current_h_player_location;
 		end if;
 	end process player_movement;
+
 	
    --This process	is responsible for checking to see if the player runs into an obstacle when the obstacle enters the "player zone".
 	hit_detection : process(enable_game_update)
@@ -263,21 +440,35 @@ lane_selector : pick_a_lane
 	   if (rising_edge(enable_game_update)) then
 	      if (global_reset = '1') then
 		      lives_left <= "11";
-	      elsif ((current_player_location = "1000" and (lane1(0) = '1')) or
-		       (current_player_location = "0100" and (lane2(0) = '1')) or
-			    (current_player_location = "0010" and (lane3(0) = '1')) or
-			    (current_player_location = "0001" and (lane4(0) = '1'))) then
-		      lives_left <= (lives_left - 1);
+	      elsif (
+					((current_player_location = "1000") and (current_h_player_location = "00") and (lane1(0) = '1')) or
+					((current_player_location = "1000") and (current_h_player_location = "01") and (lane1(1) = '1')) or
+					((current_player_location = "1000") and (current_h_player_location = "10") and (lane1(2) = '1')) or
+
+					((current_player_location = "0100") and (current_h_player_location = "00") and (lane2(0) = '1')) or
+					((current_player_location = "0100") and (current_h_player_location = "01") and (lane2(1) = '1')) or
+					((current_player_location = "0100") and (current_h_player_location = "10") and (lane2(2) = '1')) or
+					
+					((current_player_location = "0010") and (current_h_player_location = "00") and (lane3(0) = '1')) or
+					((current_player_location = "0010") and (current_h_player_location = "01") and (lane3(1) = '1')) or
+					((current_player_location = "0010") and (current_h_player_location = "10") and (lane3(2) = '1')) or
+					
+					((current_player_location = "0001") and (current_h_player_location = "00") and (lane4(0) = '1')) or
+					((current_player_location = "0001") and (current_h_player_location = "01") and (lane4(1) = '1')) or
+					((current_player_location = "0001") and (current_h_player_location = "10") and (lane4(2) = '1'))) then
+						lives_left <= (lives_left - 1);
 		   end if;
 	   end if;
 	end process hit_detection;
 
-  --The player's score should be 0 whenever the game starts or is reset,
-  --and with the current system, the player receives 1 point per second.
-   scoring_system : process(enable_game_update)
+
+	--The player's score should be 0 whenever the game starts or is reset,
+	--and with the current system, the player receives 1 point per second.
+	scoring_system : process(enable_game_update)
 	variable count : integer := 0;
+	
 	begin
-	   if (global_reset = '1') then
+		if (global_reset = '1') then
 			current_score <= "00000000";
 		else
 			if (rising_edge(enable_game_update) and (paused = '0')) then
@@ -286,15 +477,14 @@ lane_selector : pick_a_lane
 				--dead/lose state.
 				if (lives_left /= "00") then
 					count := count + 1;
-					if (count = 8) then
+					if (count = game_freq) then
 						current_score <= current_score + 1;
 						count := 0;
 					end if;
 				end if;
 			end if;
 		end if;
-	end process scoring_system;
-	
+	end process scoring_system;	
 	
 	score <= current_score;
 

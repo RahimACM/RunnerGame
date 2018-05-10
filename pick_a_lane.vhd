@@ -63,22 +63,22 @@ begin
 		   	obst_to_lane_2 <= '1';
 		   	obst_to_lane_3 <= '0';
 		   	obst_to_lane_4 <= '0';
-			elsif (((conv_integer(lfsr)) > 16384) and((conv_integer(lfsr)) < 32768)) then
+		   elsif (((conv_integer(lfsr)) > 16384) and((conv_integer(lfsr)) < 32768)) then
 		      obst_to_lane_1 <= '0';
 	   		obst_to_lane_2 <= '0';
 	   		obst_to_lane_3 <= '1';
 	   		obst_to_lane_4 <= '0';
-			elsif ((conv_integer(lfsr)) < 16384) then
-			   obst_to_lane_1 <= '0';
-				obst_to_lane_2 <= '0';
-				obst_to_lane_3 <= '0';
-				obst_to_lane_4 <= '1';
-			else
-			   obst_to_lane_1 <= '0';
-				obst_to_lane_2 <= '0';
-				obst_to_lane_3 <= '0';
-				obst_to_lane_4 <= '0';
-			end if;
+	   	elsif ((conv_integer(lfsr)) < 16384) then
+	   	   obst_to_lane_1 <= '0';
+	   		obst_to_lane_2 <= '0';
+	   		obst_to_lane_3 <= '0';
+	   		obst_to_lane_4 <= '1';
+	   	else
+	   	   obst_to_lane_1 <= '0';
+	   		obst_to_lane_2 <= '0';
+	   		obst_to_lane_3 <= '0';
+	   		obst_to_lane_4 <= '0';
+	   	end if;
 		--if obst_in from the obst_generator LFSR is not 1, then no obstacles are generated
 		else
 		   obst_to_lane_1 <= '0';

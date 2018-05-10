@@ -201,7 +201,7 @@ begin
        msd := msd + 1; -- increment the mds count
 	    cnt_tot := cnt_tot - 10;
     end loop; 
-      	    
+					
 	 lsd := cnt_tot;   -- lsd is what is left over
 
 	 -- convert lsd to binary
@@ -278,8 +278,3 @@ begin
       sclk <= tmp_clk; 
    end process my_div; 
 end my_clk_div;
-
-
-
-
-

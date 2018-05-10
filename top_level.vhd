@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity top_level is
 port ( Clk  : in std_logic;
-       player_input : in std_logic_vector (2 downto 0);
+       player_input : in std_logic_vector (4 downto 0);
 		 paused 		  : in std_logic;
 		 rgb  : out std_logic_vector (7 downto 0);
 		 HS   : out std_logic;
@@ -47,10 +47,12 @@ architecture Behavioral of top_level is
 
 component game_logic is
    port ( Clk          : in std_logic;
-	       player_input : in std_logic_vector (2 downto 0);
+	       player_input : in std_logic_vector (4 downto 0);
 			 paused 		  : in std_logic;
 			 --External signal for current_player_location, goes to another module that "draws" the player on screen.
 			 player_loc   : out std_logic_vector (3 downto 0);
+			 --External signal for current_h_player_location, goes to another module that "draws" the player on screen.
+			 h_player_loc : out STD_LOGIC_VECTOR (1 downto 0);	
 			 --External signals for locations of obstacles that will be drawn by another module.
 			 obst_locs_1  : out std_logic_vector (31 downto 0);
 			 obst_locs_2  : out std_logic_vector (31 downto 0);
@@ -78,17 +80,19 @@ component clk_wiz_v3_6 is
 end component;
 
 component graphics is
-   port (pixel_clk    : in std_logic;
-	      player_loc   : in STD_LOGIC_VECTOR (3 downto 0);
+   port (pixel_clk    	: in std_logic;
+	      player_loc   	: in STD_LOGIC_VECTOR (3 downto 0);
+			h_player_loc 	: in STD_LOGIC_VECTOR (1 downto 0);
          obst_locs_1,
          obst_locs_2,
          obst_locs_3,
-         obst_locs_4  : in STD_LOGIC_VECTOR (31 downto 0);
-			dead         : in std_logic;
-			hcount    	 : in std_logic_vector (10 downto 0);
-			vcount    	 : in std_logic_vector (10 downto 0);
-			score     	 : in std_logic_vector (7 downto 0);
-			rgb    : out std_logic_vector (7 downto 0));
+         obst_locs_4  	: in STD_LOGIC_VECTOR (31 downto 0);
+			top_lives_left : in std_logic_vector (1 downto 0);
+			score 		 	: in std_logic_vector (7 downto 0);
+			dead         	: in std_logic;
+	      hcount    	 	: in std_logic_vector (10 downto 0);
+			vcount    	 	: in std_logic_vector (10 downto 0);
+         rgb    		 	: out std_logic_vector (7 downto 0));
 end component;
 
 --This component is used to display the player's score on the seven-segment displays on the Nexys 3 board.
@@ -114,6 +118,7 @@ signal top_level_dead : std_logic := '0';
 --These internal signals come out of the game_logic module and go into the graphics module, which then
 --decides which pixels will be which colors every time the screen refreshes (60 times per second).
 signal player_loc : std_logic_vector (3 downto 0) := "0100";
+signal h_player_loc : std_logic_vector (1 downto 0) := "00";
 signal obstacles_to_draw_1,
        obstacles_to_draw_2,
 		 obstacles_to_draw_3,
@@ -123,7 +128,6 @@ signal HORIZCOUNT, VERTICOUNT : std_logic_vector (10 downto 0);
 
 --This signal is will always be zero, because we're not using it in our game design; it's part of the standard Digilent VGA controller.
 signal blank : std_logic := '0';
-
 
 --The following signals are for the sseg_dec module. They are only initialized here to satisfy the port requirements for the pre-built sseg_dec VHDL.
 signal sign : std_logic := '0';
@@ -140,6 +144,7 @@ begin
  game_mechanics : game_logic
  port map ( Clk => pixel_clk,
             player_input => player_input,
+				h_player_loc => h_player_loc,
 				paused => paused,
             player_loc   => player_loc,
 				obst_locs_1  => obstacles_to_draw_1,
@@ -158,27 +163,30 @@ begin
 				hcount => HORIZCOUNT,
 				vcount => VERTICOUNT,
 				blank => blank); --tie blank to zero, because we're not using that signal in our game
-				
- draw_the_boxes : graphics
- port map ( pixel_clk => pixel_clk,
-            player_loc  => player_loc,
-            obst_locs_1 => obstacles_to_draw_1,
-				obst_locs_2 => obstacles_to_draw_2,
-				obst_locs_3 => obstacles_to_draw_3,
-				obst_locs_4 => obstacles_to_draw_4,
-				dead        => top_level_dead,
-				hcount      => HORIZCOUNT,
-				vcount      => VERTICOUNT,
-				score      => score,
-				rgb         => rgb);
-				
- score_disp : sseg_dec
+	
+score_disp : sseg_dec
  port map (     ALU_VAL => score,
 					    SIGN => sign,
 						VALID => valid,
                     CLK => pixel_clk,
                 DISP_EN => AN,
                SEGMENTS => Segs);
+
+ draw_the_boxes : graphics
+ port map ( pixel_clk => pixel_clk,
+            player_loc  => player_loc,
+				h_player_loc => h_player_loc,
+            obst_locs_1 => obstacles_to_draw_1,
+				obst_locs_2 => obstacles_to_draw_2,
+				obst_locs_3 => obstacles_to_draw_3,
+				obst_locs_4 => obstacles_to_draw_4,
+				score => score,				
+				top_lives_left => top_lives_left ,
+				dead        => top_level_dead,
+				hcount      => HORIZCOUNT,
+				vcount      => VERTICOUNT,
+				rgb         => rgb);				
+ 
 
 --The number of LEDs lit indicates the number of lives the player has left (starts with 3).
 lives_on_LEDs : process (top_lives_left)
@@ -204,4 +212,3 @@ end process lives_on_LEDs;
 
 
 end Behavioral;
-
