@@ -8,31 +8,7 @@
 <!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/LFSR.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/SR.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/clk_wiz_v3_6.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/game_logic.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/graphics.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/pick_a_lane.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/sseg_dec.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/top_level.vhd&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2_used_by_git/vga_controller.vhd&quot; into library work</arg>
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/ESI/2CS/S2/SEMB/TD/Mini projet/RunnerGameProjectV2 derniere avec khaled/graphics.vhd&quot; into library work</arg>
 </msg>
 
 </messages>

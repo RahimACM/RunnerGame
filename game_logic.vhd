@@ -49,6 +49,7 @@ entity game_logic is
 			 obst_locs_2  : out std_logic_vector (31 downto 0);
 			 obst_locs_3  : out std_logic_vector (31 downto 0);
 			 obst_locs_4  : out std_logic_vector (31 downto 0);
+			       level  : out std_logic_vector (2 downto 0);
 			       score  : out std_logic_vector (7 downto 0);
 		  top_lives_left : out std_logic_vector (1 downto 0);
 		  top_level_dead : out std_logic);
@@ -60,12 +61,20 @@ architecture Behavioral of game_logic is
 ------Constants------
 
 --This constant represents the frequency of the input clock signal. In this case, it's the "actual" value of the
---pixel clock, approximately 25.174 MHz. This constant is used in a process below to create an enable
+--pixel clock, approximately 25.185 MHz. This constant is used in a process below to create an enable
 --signal to update game logic with the desired frequency (currently 8Hz).
 constant clock_freq : integer := 25185000;
 
 --This constant represents our desired frequency of game logic updates.
 constant game_freq : integer := 8;
+
+--This constant represents our initial frequency of obstacles generation.
+constant initial_obst_freq : integer := 2;
+
+--This variable represents our the frequency obstacles generation which changes with the score.
+signal obst_freq : integer := 2;
+
+signal current_level : std_logic_vector(2 downto 0) := "001";		 
 
 ------This section lists the components we need in our circuit to run the game logic.
 
@@ -103,6 +112,8 @@ end component;
 ------Intermediate Signals------
 --This signal is effectively our "game clock", as it will only be active 8 times per second (see game_freq_gen process below).
 signal enable_game_update : std_logic := '0';
+--This signal is effectively our "obst clock".
+signal enable_obst_update : std_logic := '0';
 
 --This signal becomes high when the player reaches zero lives remaining. It's then sent to the other components to tell them to
 --stop generating new obstacles.
@@ -157,7 +168,7 @@ global_reset <= player_input(0);
 --Here we instantiate the four SRs for the four lanes.
 --The obstacles coming in to each lane are decided by the pick_a_lane module.
 lane1_sr : SR
-   port map ( game_clock => enable_game_update,
+   port map ( game_clock => enable_obst_update,
 						enable => not paused,
 	              obst_in => current_obst_to_L1,
 					     dead => lose_state,
@@ -165,7 +176,7 @@ lane1_sr : SR
 					 lane_out => lane1);
 
 lane2_sr : SR
-   port map ( game_clock => enable_game_update,
+   port map ( game_clock => enable_obst_update,
 						enable => not paused,
 	              obst_in => current_obst_to_L2,
 					     dead => lose_state,
@@ -173,7 +184,7 @@ lane2_sr : SR
 					 lane_out => lane2);
 					 
 lane3_sr : SR
-   port map ( game_clock => enable_game_update,
+   port map ( game_clock => enable_obst_update,
 						enable => not paused,
 	              obst_in => current_obst_to_L3,
 					     dead => lose_state,
@@ -181,7 +192,7 @@ lane3_sr : SR
 					 lane_out => lane3);
 					 
 lane4_sr : SR
-   port map ( game_clock => enable_game_update,
+   port map ( game_clock => enable_obst_update,
 						enable => not paused,
 	              obst_in => current_obst_to_L4,
 					     dead => lose_state,
@@ -198,14 +209,14 @@ obst_locs_4 <= lane4;
 --Here we instantiate one LFSR that will be used to generate
 --new obstacles in the four lanes in a pseudo-random fashion.				
 obst_generator : LFSR
-   port map ( game_clock => enable_game_update,
+   port map ( game_clock => enable_obst_update,
 						enable => not paused,
 	                 dead => lose_state,
 	                reset => global_reset,
 					 obst_out => current_obst);
 					 
 lane_selector : pick_a_lane
-   port map ( game_clock => enable_game_update,
+   port map ( game_clock => enable_obst_update,
 						enable => not paused,
 	              obst_in => current_obst,
           obst_to_lane_1 => current_obst_to_L1,
@@ -229,12 +240,54 @@ lane_selector : pick_a_lane
 		end if;
 	end process game_freq_gen;
 
+with current_level select
+	obst_freq <= 2 when "001",
+	4 when "010",
+	6 when "011",
+	8 when "100",
+	10 when "101",
+	16 when others;
+
+--This process essentially generates our desired "obst clock" with a frequency that changes with the current_score.
+   obst_freq_gen : process(global_reset, Clk)
+	   variable count : integer := 0;
+		variable last_score : integer := 0;
+		variable increment_score_unit : integer := 20;
+
+	begin
+      if (global_reset = '1') then
+			current_level <= "001";
+			count := 0;
+			last_score := 0;
+			increment_score_unit := 20;
+	   else
+			if (rising_edge(Clk) and (paused = '0') and (lose_state = '0')) then
+				enable_obst_update <= '0';
+				count := (count + 1);
+				--...due to this if statement.
+				if (count >= (clock_freq / obst_freq)) then
+					enable_obst_update <= '1';
+					count := 0;
+				end if;
+				if (conv_integer(current_score) = (last_score + increment_score_unit)) then
+			
+					--change the obst freqency
+					current_level <= current_level + 1;
+				
+					--change increment and current score
+					last_score := conv_integer(current_score);
+					increment_score_unit := increment_score_unit + 10;
+				end if;
+			end if;
+		end if;
+	end process obst_freq_gen;
+
 
    --This process is responsible for moving the player up and down within their zone (between the four possible locations).
    --It should run whenever a change in player input is detected, because that's when the user wants to move their character.
 	player_movement : process(enable_game_update, player_input)
    begin
-	   if (rising_edge(enable_game_update) and (paused = '0')) then
+	   if (rising_edge(enable_game_update) and (paused = '0') and (lose_state = '0')) then
 			case (current_player_location) is
 				when "1000" => 
 					case (current_h_player_location) is
@@ -435,41 +488,40 @@ lane_selector : pick_a_lane
 
 	
    --This process	is responsible for checking to see if the player runs into an obstacle when the obstacle enters the "player zone".
-	hit_detection : process(enable_game_update)
+	hit_detection : process(global_reset, enable_obst_update)
 	begin
-	   if (rising_edge(enable_game_update)) then
-	      if (global_reset = '1') then
-		      lives_left <= "11";
-	      elsif (
-					((current_player_location = "1000") and (current_h_player_location = "00") and (lane1(0) = '1')) or
-					((current_player_location = "1000") and (current_h_player_location = "01") and (lane1(1) = '1')) or
-					((current_player_location = "1000") and (current_h_player_location = "10") and (lane1(2) = '1')) or
+      if (global_reset = '1') then
+	      lives_left <= "11";
+		elsif (rising_edge(enable_obst_update) and (paused = '0') and (lose_state = '0') and
+				(
+				((current_player_location = "1000") and (current_h_player_location = "00") and (lane1(0) = '1')) or
+				((current_player_location = "1000") and (current_h_player_location = "01") and (lane1(1) = '1')) or
+				((current_player_location = "1000") and (current_h_player_location = "10") and (lane1(2) = '1')) or
 
-					((current_player_location = "0100") and (current_h_player_location = "00") and (lane2(0) = '1')) or
-					((current_player_location = "0100") and (current_h_player_location = "01") and (lane2(1) = '1')) or
-					((current_player_location = "0100") and (current_h_player_location = "10") and (lane2(2) = '1')) or
-					
-					((current_player_location = "0010") and (current_h_player_location = "00") and (lane3(0) = '1')) or
-					((current_player_location = "0010") and (current_h_player_location = "01") and (lane3(1) = '1')) or
-					((current_player_location = "0010") and (current_h_player_location = "10") and (lane3(2) = '1')) or
-					
-					((current_player_location = "0001") and (current_h_player_location = "00") and (lane4(0) = '1')) or
-					((current_player_location = "0001") and (current_h_player_location = "01") and (lane4(1) = '1')) or
-					((current_player_location = "0001") and (current_h_player_location = "10") and (lane4(2) = '1'))) then
-						lives_left <= (lives_left - 1);
-		   end if;
-	   end if;
+				((current_player_location = "0100") and (current_h_player_location = "00") and (lane2(0) = '1')) or
+				((current_player_location = "0100") and (current_h_player_location = "01") and (lane2(1) = '1')) or
+				((current_player_location = "0100") and (current_h_player_location = "10") and (lane2(2) = '1')) or
+				
+				((current_player_location = "0010") and (current_h_player_location = "00") and (lane3(0) = '1')) or
+				((current_player_location = "0010") and (current_h_player_location = "01") and (lane3(1) = '1')) or
+				((current_player_location = "0010") and (current_h_player_location = "10") and (lane3(2) = '1')) or
+				
+				((current_player_location = "0001") and (current_h_player_location = "00") and (lane4(0) = '1')) or
+				((current_player_location = "0001") and (current_h_player_location = "01") and (lane4(1) = '1')) or
+				((current_player_location = "0001") and (current_h_player_location = "10") and (lane4(2) = '1')))) then
+					lives_left <= (lives_left - 1);
+		end if;
 	end process hit_detection;
 
 
 	--The player's score should be 0 whenever the game starts or is reset,
 	--and with the current system, the player receives 1 point per second.
-	scoring_system : process(enable_game_update)
+	scoring_system : process(global_reset, enable_game_update)
 	variable count : integer := 0;
 	
 	begin
 		if (global_reset = '1') then
-			current_score <= "00000000";
+			   current_score <= "00000000";
 		else
 			if (rising_edge(enable_game_update) and (paused = '0')) then
 				--This if statement makes sure that the players score only goes up while they
@@ -486,23 +538,22 @@ lane_selector : pick_a_lane
 		end if;
 	end process scoring_system;	
 	
+	level <= current_level;
 	score <= current_score;
 
    --When the player has 0 lives remaining, the game transitions to the lose state,
 	--where the obstacles disappear, the LFSR stops generating new obstacles, the score
 	--stops increasing, and the player's white box turns red.
-   check_for_game_over : process (enable_game_update)
+   check_for_game_over : process(global_reset, enable_obst_update)
 	begin
-	   if (rising_edge(enable_game_update)) then
-	      if (global_reset = '1') then
-			   lose_state <= '0';
-			elsif (lives_left = "00") then
-			   lose_state <= '1';
-         end if;
+      if (global_reset = '1') then
+		   lose_state <= '0';
+	   elsif (rising_edge(enable_obst_update) and (paused = '0') and (lives_left = "00")) then
+		   lose_state <= '1';
 		end if;
 	end process check_for_game_over;
 
-top_lives_left <= lives_left;
-top_level_dead <= lose_state;
+	top_lives_left <= lives_left;
+	top_level_dead <= lose_state;
 
 end Behavioral;

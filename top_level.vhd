@@ -58,6 +58,7 @@ component game_logic is
 			 obst_locs_2  : out std_logic_vector (31 downto 0);
 			 obst_locs_3  : out std_logic_vector (31 downto 0);
 			 obst_locs_4  : out std_logic_vector (31 downto 0);
+			   level      : out std_logic_vector (2 downto 0);
 			   score      : out std_logic_vector (7 downto 0);
 		  top_lives_left : out std_logic_vector (1 downto 0);
 		  top_level_dead : out std_logic);
@@ -88,6 +89,7 @@ component graphics is
          obst_locs_3,
          obst_locs_4  	: in STD_LOGIC_VECTOR (31 downto 0);
 			top_lives_left : in std_logic_vector (1 downto 0);
+			level 		 	: in std_logic_vector (2 downto 0);
 			score 		 	: in std_logic_vector (7 downto 0);
 			dead         	: in std_logic;
 	      hcount    	 	: in std_logic_vector (10 downto 0);
@@ -111,6 +113,7 @@ signal pixel_clk : std_logic;
 --all game components should be reset to their initial state.
 signal reset : std_logic := '0';
 
+signal level : std_logic_vector (2 downto 0);
 signal score : std_logic_vector (7 downto 0);
 signal top_lives_left : std_logic_vector (1 downto 0);
 signal top_level_dead : std_logic := '0';
@@ -119,6 +122,7 @@ signal top_level_dead : std_logic := '0';
 --decides which pixels will be which colors every time the screen refreshes (60 times per second).
 signal player_loc : std_logic_vector (3 downto 0) := "0100";
 signal h_player_loc : std_logic_vector (1 downto 0) := "00";
+
 signal obstacles_to_draw_1,
        obstacles_to_draw_2,
 		 obstacles_to_draw_3,
@@ -151,6 +155,7 @@ begin
 				obst_locs_2  => obstacles_to_draw_2,
 				obst_locs_3  => obstacles_to_draw_3,
 				obst_locs_4  => obstacles_to_draw_4,
+				     level   => level,
 				     score   => score,
 			top_lives_left  => top_lives_left,
 			top_level_dead  => top_level_dead);
@@ -164,14 +169,6 @@ begin
 				vcount => VERTICOUNT,
 				blank => blank); --tie blank to zero, because we're not using that signal in our game
 	
-score_disp : sseg_dec
- port map (     ALU_VAL => score,
-					    SIGN => sign,
-						VALID => valid,
-                    CLK => pixel_clk,
-                DISP_EN => AN,
-               SEGMENTS => Segs);
-
  draw_the_boxes : graphics
  port map ( pixel_clk => pixel_clk,
             player_loc  => player_loc,
@@ -180,6 +177,7 @@ score_disp : sseg_dec
 				obst_locs_2 => obstacles_to_draw_2,
 				obst_locs_3 => obstacles_to_draw_3,
 				obst_locs_4 => obstacles_to_draw_4,
+				level => level,				
 				score => score,				
 				top_lives_left => top_lives_left ,
 				dead        => top_level_dead,
@@ -187,6 +185,13 @@ score_disp : sseg_dec
 				vcount      => VERTICOUNT,
 				rgb         => rgb);				
  
+score_disp : sseg_dec
+ port map (     ALU_VAL => score,
+					    SIGN => sign,
+						VALID => valid,
+                    CLK => pixel_clk,
+                DISP_EN => AN,
+               SEGMENTS => Segs);
 
 --The number of LEDs lit indicates the number of lives the player has left (starts with 3).
 lives_on_LEDs : process (top_lives_left)

@@ -40,6 +40,7 @@ entity graphics is
            obst_locs_2,
            obst_locs_3,
            obst_locs_4 	: in STD_LOGIC_VECTOR (31 downto 0);
+			  level 			: in std_logic_vector (2 downto 0);
 			  score 			: in std_logic_vector (7 downto 0);
 			  top_lives_left : in std_logic_vector (1 downto 0);
 			  dead        	: in STD_LOGIC;
@@ -58,10 +59,10 @@ signal draw_obst,
        draw_plyr ,
 		 draw_life ,
 		 draw_line ,
-		 draw_score : std_logic; 
-signal color_selector : std_logic_vector (4 downto 0);		 
+		 draw_level : std_logic; 
+signal color_selector : std_logic_vector (5 downto 0);		 
 signal score_integer : integer range 0 to 255;
-signal score_digit1,score_digit2,score_digit3 : Integer ;
+signal level_digit, score_digit1, score_digit2, score_digit3 : Integer ;
 begin
 
 
@@ -817,17 +818,107 @@ draw_plyr <= '1' when
 ) else '0';
 	
 					
+level_digit <= conv_integer(level);
+
 score_integer <= conv_integer(score);
 score_digit1 <= score_integer mod 10;
 score_digit2 <= ((score_integer - score_digit1 )/10 ) mod 10;
 score_digit3 <= ((score_integer  - score_digit1 - score_digit2*10 )/100) mod 10;
+
+draw_level <= '1' when
+	(
+	  ((y<=350) and (y>=280) and ((x=80)  or (x=130))) or -- vertical bars
+	  
+	  (((y=280) or (y=350)) and (x>80)  and (x<130)) or -- horizonal bars
+	  
+	  ((y>300) and (y<305) and (x>100) and (x<110)	and 
+	  (
+	  (level_digit = 0)or
+	  (level_digit = 2)or
+	  (level_digit = 3)or
+	  (level_digit = 5)or
+	  (level_digit = 6)or
+	  (level_digit = 7)or
+	  (level_digit = 8)or
+	  (level_digit = 9)
+	  )) or
+	  ((y>305) and (y<315) and (x>110) and (x <115)	and 
+	  (
+	  (level_digit = 0)or
+	  (level_digit = 1)or
+	  (level_digit = 2)or
+	  (level_digit = 3)or
+	  (level_digit = 4)or
+	  (level_digit = 7)or
+	  (level_digit = 8)or
+	  (level_digit = 9)
+	  ))or
+	  ((y>305) and (y<315) and (x>95) and (x <100)	and 
+	  (
+	  (level_digit = 0)or
+	  (level_digit = 4)or
+	  (level_digit = 5)or
+	  (level_digit = 6)or
+	  (level_digit = 8)or
+	  (level_digit = 9)
+	  ))or
+	  ((y>315) and (y<320) and (x>100) and (x <110)	and 
+	  (
+	  (level_digit = 2)or
+	  (level_digit = 3)or
+	  (level_digit = 4)or
+	  (level_digit = 5)or
+	  (level_digit = 6)or
+	  (level_digit = 8)or
+	  (level_digit = 9)
+	  ))or
+	  ((y>320) and (y<330) and (x>110) and (x <115)	and 
+	  (
+	  (level_digit = 0)or
+	  (level_digit = 1)or
+	  (level_digit = 3)or
+	  (level_digit = 4)or
+	  (level_digit = 5)or
+	  (level_digit = 6)or
+	  (level_digit = 7)or
+	  (level_digit = 8)or
+	  (level_digit = 9)
+	  ))or
+	  ((y>320) and (y<330) and (x>95) and (x <100)	and 
+	  (
+	  (level_digit = 0)or
+	  (level_digit = 2)or
+	  (level_digit = 6)or
+	  (level_digit = 8)
+	  ))or
+	  ((y>330) and (y<335) and (x>100) and (x <110)	and 
+	  (
+	  (level_digit = 0)or
+	  (level_digit = 2)or
+	  (level_digit = 3)or
+	  (level_digit = 5)or
+	  (level_digit = 6)or
+	  (level_digit = 8)or
+	  (level_digit = 9)
+	  ))
+	  
+	) else '0';
+
 draw_line <= '1' when
  (
-  ((y=60) and (x>180) and (x mod 10 < 7) and (x < 530)) or
+  ((y=60) and (x>180)  and (x < 530)) or --and (x mod 10 < 7)
   ((y=160) and (x>180) and (x mod 10 < 7) and (x < 530)) or
   ((y=260) and (x>180) and (x mod 10 < 7) and (x < 530)) or
   ((y=360) and (x>180) and (x mod 10 < 7) and (x < 530)) or
-  ((y=460) and (x>180) and (x mod 10 < 7) and (x < 530)) or
+  ((y=460) and (x>180)  and (x < 530)) or --and (x mod 10 < 7)
+  
+  --((y<460) and (y>60) and ((x=180)  or (x = 530))) or-- vertical
+  
+  
+  
+  ((y<=150) and (y>=80) and ((x=50)  or (x = 160))) or-- vertical score
+  
+  (((y=80) or (y=150)) and (x>50)  and (x < 160)) or --horizon score 
   
   --score_digit1 
   ((y>100) and (y<105) and (x>130) and (x <140)	and 
@@ -1049,66 +1140,76 @@ draw_line <= '1' when
  )else '0';
  
 draw_life <= '1' when
- (((y>200) and (y<205) and (x>135) and (x <140)	and (top_lives_left="01")  )or
- ((y>225) and (y<230) and (x>135) and (x <140)	and (top_lives_left="01")  )or
- ((y>200) and (y<230) and (x>125) and (x <135)	and (top_lives_left="01")  )or
- ((y>200) and (y<205) and (x>120) and (x <125)	and (top_lives_left="01")  )or
- ((y>225) and (y<230) and (x>120) and (x <125)	and (top_lives_left="01")  )or
+ 
 
- ((y>200) and (y<205) and (x>135) and (x <140)	and (top_lives_left="10")  )or
- ((y>225) and (y<230) and (x>135) and (x <140)	and (top_lives_left="10")  )or
- ((y>200) and (y<230) and (x>125) and (x <135)	and (top_lives_left="10")  )or
- ((y>200) and (y<205) and (x>120) and (x <125)	and (top_lives_left="10")  )or
- ((y>225) and (y<230) and (x>120) and (x <125)	and (top_lives_left="10")  )or
+ (
+((y<=240) and (y>=190) and ((x=50)  or (x = 160))) or-- vertical score
+  
+  (((y=190) or (y=240)) and (x>50)  and (x < 160)) or --horizon score
+  
+ ((y>200) and (y<205) and (x>140) and (x <145)	and (top_lives_left="01")  )or
+ ((y>225) and (y<230) and (x>140) and (x <145)	and (top_lives_left="01")  )or
+ ((y>200) and (y<230) and (x>130) and (x <140)	and (top_lives_left="01")  )or
+ ((y>200) and (y<205) and (x>125) and (x <130)	and (top_lives_left="01")  )or
+ ((y>225) and (y<230) and (x>125) and (x <130)	and (top_lives_left="01")  )or
 
- ((y>200) and (y<205) and (x>135) and (x <140)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>135) and (x <140)	and (top_lives_left="11")  )or
- ((y>200) and (y<230) and (x>125) and (x <135)	and (top_lives_left="11")  )or
- ((y>200) and (y<205) and (x>120) and (x <125)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>120) and (x <125)	and (top_lives_left="11")  )or
+ ((y>200) and (y<205) and (x>140) and (x <145)	and (top_lives_left="10")  )or
+ ((y>225) and (y<230) and (x>140) and (x <145)	and (top_lives_left="10")  )or
+ ((y>200) and (y<230) and (x>130) and (x <140)	and (top_lives_left="10")  )or
+ ((y>200) and (y<205) and (x>125) and (x <130)	and (top_lives_left="10")  )or
+ ((y>225) and (y<230) and (x>125) and (x <130)	and (top_lives_left="10")  )or
+
+ ((y>200) and (y<205) and (x>140) and (x <145)	and (top_lives_left="11")  )or
+ ((y>225) and (y<230) and (x>140) and (x <145)	and (top_lives_left="11")  )or
+ ((y>200) and (y<230) and (x>130) and (x <140)	and (top_lives_left="11")  )or
+ ((y>200) and (y<205) and (x>125) and (x <130)	and (top_lives_left="11")  )or
+ ((y>225) and (y<230) and (x>125) and (x <130)	and (top_lives_left="11")  )or
 
 
 
-  ((y>200) and (y<205) and (x>105) and (x <110)	and (top_lives_left="10") 	)or
- ((y>225) and (y<230) and (x>105) and (x <110)	and (top_lives_left="10")  )or
- ((y>200) and (y<230) and (x>95) and (x <105)	and (top_lives_left="10")  )or
- ((y>200) and (y<205) and (x>90) and (x <95)	and (top_lives_left="10")  )or
- ((y>225) and (y<230) and (x>90) and (x <95)	and (top_lives_left="10")  )or
+  ((y>200) and (y<205) and (x>110) and (x <115)	and (top_lives_left="10") 	)or
+ ((y>225) and (y<230) and (x>110) and (x <115)	and (top_lives_left="10")  )or
+ ((y>200) and (y<230) and (x>100) and (x <110)	and (top_lives_left="10")  )or
+ ((y>200) and (y<205) and (x>95) and (x <100)	and (top_lives_left="10")  )or
+ ((y>225) and (y<230) and (x>95) and (x <100)	and (top_lives_left="10")  )or
 
   
-( (y>200) and (y<205) and (x>105) and (x <110)	and (top_lives_left="11") 	)or
- ((y>225) and (y<230) and (x>105) and (x <110)	and (top_lives_left="11")  )or
- ((y>200) and (y<230) and (x>95) and (x <105)	and (top_lives_left="11")  )or
- ((y>200) and (y<205) and (x>90) and (x <95)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>90) and (x <95)	and (top_lives_left="11")  )or
+( (y>200) and (y<205) and (x>110) and (x <115)	and (top_lives_left="11") 	)or
+ ((y>225) and (y<230) and (x>110) and (x <115)	and (top_lives_left="11")  )or
+ ((y>200) and (y<230) and (x>100) and (x <110)	and (top_lives_left="11")  )or
+ ((y>200) and (y<205) and (x>95) and (x <100)	and (top_lives_left="11")  )or
+ ((y>225) and (y<230) and (x>95) and (x <100)	and (top_lives_left="11")  )or
   
-( (y>200) and (y<205) and (x>75) and (x <80)	and (top_lives_left="11") 	)or
- ((y>225) and (y<230) and (x>75) and (x <80)	and (top_lives_left="11")  )or
- ((y>200) and (y<230) and (x>65) and (x <75)	and (top_lives_left="11")  )or
- ((y>200) and (y<205) and (x>60) and (x <65)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>60) and (x <65)	and (top_lives_left="11")  )
+( (y>200) and (y<205) and (x>80) and (x <85)	and (top_lives_left="11") 	)or
+ ((y>225) and (y<230) and (x>80) and (x <85)	and (top_lives_left="11")  )or
+ ((y>200) and (y<230) and (x>70) and (x <80)	and (top_lives_left="11")  )or
+ ((y>200) and (y<205) and (x>65) and (x <70)	and (top_lives_left="11")  )or
+ ((y>225) and (y<230) and (x>65) and (x <70)	and (top_lives_left="11")  )
  )else '0';
 
 --mux
 
-color_selector <= draw_obst & draw_plyr & dead & draw_line & draw_life;
+color_selector <= draw_obst & draw_plyr & dead & draw_line & draw_life & draw_level;
 with color_selector select
-   rgb <= "00000011" when "10000",
-   "11111111" when "11000",
+   rgb <= "00000011" when "100000",
+   "11111111" when "110000",
 	
-	"11111111" when "01000",
+	"11111111" when "010000",
 	
 	--player should turn red when lose_state achieved.
 	-- "11100000" when "10100",	-- cas normalement pas possible
-	"11100000" when "11100",
+	"11100000" when "111000",
 	
-	"11100000" when "01100",
+	"11100000" when "011000",
 	
-	"11111111" when "00010",
-	"11111111" when "00110",
+	"11111111" when "000100",
+	"11111111" when "001100",
 	
-	"00111011" when "00001",
-	"00111011" when "00101",
+	"00111011" when "000010",
+	"00111011" when "001010",
+
+	"11011001" when "000001",
+	"11011001" when "001001",
 
 	--the rest of the screen should be black.
 	"00000000" when others;
