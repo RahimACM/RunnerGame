@@ -5,112 +5,112 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 172: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
+<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 166: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 180: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
+<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 174: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 188: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
+<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 182: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 196: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
+<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 190: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 213: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
+<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 207: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 220: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
+<msg type="warning" file="HDLCompiler" num="946" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 214: Actual for formal port <arg fmt="%s" index="1">enable</arg> is neither a static name nor a globally static expression
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="871" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\top_level.vhd" Line 114: Using initial value <arg fmt="%s" index="1">&apos;0&apos;</arg> for <arg fmt="%s" index="2">reset</arg> since it is never assigned
+<msg type="warning" file="HDLCompiler" num="871" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\top_level.vhd" Line 149: Using initial value <arg fmt="%s" index="1">&apos;0&apos;</arg> for <arg fmt="%s" index="2">sign</arg> since it is never assigned
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="871" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\top_level.vhd" Line 137: Using initial value <arg fmt="%s" index="1">&apos;0&apos;</arg> for <arg fmt="%s" index="2">sign</arg> since it is never assigned
+<msg type="warning" file="HDLCompiler" num="871" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\top_level.vhd" Line 150: Using initial value <arg fmt="%s" index="1">&apos;1&apos;</arg> for <arg fmt="%s" index="2">valid</arg> since it is never assigned
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="871" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\top_level.vhd" Line 138: Using initial value <arg fmt="%s" index="1">&apos;1&apos;</arg> for <arg fmt="%s" index="2">valid</arg> since it is never assigned
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\SR.vhd" Line 48: <arg fmt="%s" index="1">enable</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\SR.vhd" Line 48: <arg fmt="%s" index="1">enable</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\LFSR.vhd" Line 50: <arg fmt="%s" index="1">dead</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\LFSR.vhd" Line 50: <arg fmt="%s" index="1">dead</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\LFSR.vhd" Line 55: <arg fmt="%s" index="1">enable</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\LFSR.vhd" Line 55: <arg fmt="%s" index="1">enable</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\pick_a_lane.vhd" Line 51: <arg fmt="%s" index="1">enable</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\pick_a_lane.vhd" Line 51: <arg fmt="%s" index="1">enable</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\pick_a_lane.vhd" Line 55: <arg fmt="%s" index="1">obst_in</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\pick_a_lane.vhd" Line 55: <arg fmt="%s" index="1">obst_in</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\pick_a_lane.vhd" Line 56: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\pick_a_lane.vhd" Line 56: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\pick_a_lane.vhd" Line 61: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\pick_a_lane.vhd" Line 61: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\pick_a_lane.vhd" Line 66: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\pick_a_lane.vhd" Line 66: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\pick_a_lane.vhd" Line 71: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\pick_a_lane.vhd" Line 71: <arg fmt="%s" index="1">lfsr</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 258: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 264: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 284: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 290: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 689: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 495: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 691: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 497: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 692: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 498: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 693: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 499: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 695: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 501: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 696: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 502: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 697: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 503: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 699: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 505: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 700: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 506: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 701: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 507: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 703: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 509: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 704: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 510: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 705: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 511: <arg fmt="%s" index="1">current_player_location</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 720: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 526: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
+<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\game_logic.vhd" Line 745: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="92" delta="old" >"D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\game_logic.vhd" Line 551: <arg fmt="%s" index="1">paused</arg> should be on the sensitivity list of the process
+<msg type="info" file="Xst" num="3210" delta="old" >&quot;<arg fmt="%s" index="1">D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\top_level.vhd</arg>&quot; line <arg fmt="%s" index="2">185</arg>: Output port &lt;<arg fmt="%s" index="3">blank</arg>&gt; of the instance &lt;<arg fmt="%s" index="4">sync_module</arg>&gt; is unconnected or connected to loadless signal.
 </msg>
 
-<msg type="info" file="Xst" num="3210" delta="old" >&quot;<arg fmt="%s" index="1">D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 derniere avec khaled\top_level.vhd</arg>&quot; line <arg fmt="%s" index="2">163</arg>: Output port &lt;<arg fmt="%s" index="3">blank</arg>&gt; of the instance &lt;<arg fmt="%s" index="4">sync_module</arg>&gt; is unconnected or connected to loadless signal.
+<msg type="warning" file="Xst" num="647" delta="old" >Input &lt;<arg fmt="%s" index="1">Clock</arg>&gt; is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 </msg>
 
 <msg type="warning" file="Xst" num="647" delta="old" >Input &lt;<arg fmt="%s" index="1">pixel_clk</arg>&gt; is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.

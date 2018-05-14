@@ -31,7 +31,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity top_level is
 port ( Clk  : in std_logic;
-       player_input : in std_logic_vector (4 downto 0);
+		 PS2KeyboardClock : in  STD_LOGIC;
+       PS2KeyboardData : in  STD_LOGIC;
+		 reset 		  : in std_logic;
 		 paused 		  : in std_logic;
 		 rgb  : out std_logic_vector (7 downto 0);
 		 HS   : out std_logic;
@@ -45,9 +47,21 @@ end top_level;
 
 architecture Behavioral of top_level is
 
+component KeyboardController is
+    Port ( Clock : in STD_LOGIC;
+	        PS2KeyboardClock : in  STD_LOGIC;
+           PS2KeyboardData : in  STD_LOGIC;
+			  RightArrow : out STD_LOGIC;
+			  UpArrow : out STD_LOGIC;
+			  LeftArrow : out STD_LOGIC;
+			  DownArrow : out STD_LOGIC
+	);
+end component;
+
 component game_logic is
    port ( Clk          : in std_logic;
-	       player_input : in std_logic_vector (4 downto 0);
+			 player_input : in std_logic_vector (3 downto 0);
+			 reset 		  : in std_logic;
 			 paused 		  : in std_logic;
 			 --External signal for current_player_location, goes to another module that "draws" the player on screen.
 			 player_loc   : out std_logic_vector (3 downto 0);
@@ -107,11 +121,9 @@ component sseg_dec is
            SEGMENTS : out std_logic_vector(7 downto 0));
 end component;
 
-signal pixel_clk : std_logic;
+signal player_input : std_logic_vector (3 downto 0);
 
---The "global reset" signal for the game. When it's high,
---all game components should be reset to their initial state.
-signal reset : std_logic := '0';
+signal pixel_clk : std_logic;
 
 signal level : std_logic_vector (2 downto 0);
 signal score : std_logic_vector (7 downto 0);
@@ -138,8 +150,17 @@ signal sign : std_logic := '0';
 signal valid : std_logic := '1';
 
 begin
-
  
+	keyboard_controller : KeyboardController
+	port map ( Clock => Clk,
+				  PS2KeyboardClock => PS2KeyboardClock,
+				  PS2KeyboardData => PS2KeyboardData,
+				  RightArrow => player_input(0),
+				  UpArrow => player_input(1),
+				  LeftArrow => player_input(2),
+				  DownArrow => player_input(3)
+	);
+
  pixel_clock : clk_wiz_v3_6
  port map ( CLK_IN1  => Clk,
             CLK_OUT1 => pixel_clk);
@@ -148,9 +169,10 @@ begin
  game_mechanics : game_logic
  port map ( Clk => pixel_clk,
             player_input => player_input,
-				h_player_loc => h_player_loc,
+				reset => reset,
 				paused => paused,
             player_loc   => player_loc,
+				h_player_loc => h_player_loc,
 				obst_locs_1  => obstacles_to_draw_1,
 				obst_locs_2  => obstacles_to_draw_2,
 				obst_locs_3  => obstacles_to_draw_3,

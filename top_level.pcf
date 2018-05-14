@@ -1,5 +1,5 @@
 //! **************************************************************************
-// Written by: Map P.20131013 on Sat May 12 04:53:07 2018
+// Written by: Map P.20131013 on Mon May 14 12:51:47 2018
 //! **************************************************************************
 
 SCHEMATIC START;
@@ -21,11 +21,8 @@ COMP "AN<0>" LOCATE = SITE "P17" LEVEL 1;
 COMP "AN<1>" LOCATE = SITE "P18" LEVEL 1;
 COMP "AN<2>" LOCATE = SITE "N15" LEVEL 1;
 COMP "AN<3>" LOCATE = SITE "N16" LEVEL 1;
-COMP "player_input<0>" LOCATE = SITE "T9" LEVEL 1;
-COMP "player_input<1>" LOCATE = SITE "C9" LEVEL 1;
-COMP "player_input<2>" LOCATE = SITE "A8" LEVEL 1;
-COMP "player_input<3>" LOCATE = SITE "D9" LEVEL 1;
-COMP "player_input<4>" LOCATE = SITE "C4" LEVEL 1;
+COMP "reset" LOCATE = SITE "T9" LEVEL 1;
+COMP "PS2KeyboardData" LOCATE = SITE "J13" LEVEL 1;
 COMP "rgb<0>" LOCATE = SITE "R7" LEVEL 1;
 COMP "rgb<1>" LOCATE = SITE "T7" LEVEL 1;
 COMP "rgb<2>" LOCATE = SITE "P8" LEVEL 1;
@@ -35,5 +32,6 @@ COMP "rgb<5>" LOCATE = SITE "U7" LEVEL 1;
 COMP "rgb<6>" LOCATE = SITE "V7" LEVEL 1;
 COMP "rgb<7>" LOCATE = SITE "N7" LEVEL 1;
 COMP "paused" LOCATE = SITE "T10" LEVEL 1;
+COMP "PS2KeyboardClock" LOCATE = SITE "L12" LEVEL 1;
 SCHEMATIC END;
 

@@ -33,29 +33,37 @@ Data Sheet report:
 All values displayed in nanoseconds (ns)
 
 Setup/Hold to clock Clk
----------------+------------+------------+------------+------------+------------------+--------+
-               |Max Setup to|  Process   |Max Hold to |  Process   |                  | Clock  |
-Source         | clk (edge) |   Corner   | clk (edge) |   Corner   |Internal Clock(s) | Phase  |
----------------+------------+------------+------------+------------+------------------+--------+
-paused         |    8.670(R)|      SLOW  |   -3.057(R)|      FAST  |pixel_clk         |   0.000|
-player_input<0>|    7.654(R)|      SLOW  |   -1.469(R)|      FAST  |pixel_clk         |   0.000|
----------------+------------+------------+------------+------------+------------------+--------+
+------------+------------+------------+------------+------------+------------------+--------+
+            |Max Setup to|  Process   |Max Hold to |  Process   |                  | Clock  |
+Source      | clk (edge) |   Corner   | clk (edge) |   Corner   |Internal Clock(s) | Phase  |
+------------+------------+------------+------------+------------+------------------+--------+
+paused      |    8.800(R)|      SLOW  |   -2.838(R)|      FAST  |pixel_clk         |   0.000|
+reset       |    7.668(R)|      SLOW  |   -1.374(R)|      FAST  |pixel_clk         |   0.000|
+------------+------------+------------+------------+------------+------------------+--------+
+
+Setup/Hold to clock PS2KeyboardClock
+---------------+------------+------------+------------+------------+----------------------+--------+
+               |Max Setup to|  Process   |Max Hold to |  Process   |                      | Clock  |
+Source         | clk (edge) |   Corner   | clk (edge) |   Corner   |Internal Clock(s)     | Phase  |
+---------------+------------+------------+------------+------------+----------------------+--------+
+PS2KeyboardData|    3.419(F)|      SLOW  |   -1.267(F)|      FAST  |PS2KeyboardClock_BUFGP|   0.000|
+---------------+------------+------------+------------+------------+----------------------+--------+
 
 Clock Clk to Pad
 ------------+-----------------+------------+-----------------+------------+------------------+--------+
             |Max (slowest) clk|  Process   |Min (fastest) clk|  Process   |                  | Clock  |
 Destination |  (edge) to PAD  |   Corner   |  (edge) to PAD  |   Corner   |Internal Clock(s) | Phase  |
 ------------+-----------------+------------+-----------------+------------+------------------+--------+
-HS          |         6.887(R)|      SLOW  |         4.221(R)|      FAST  |pixel_clk         |   0.000|
-VS          |         6.705(R)|      SLOW  |         4.148(R)|      FAST  |pixel_clk         |   0.000|
-rgb<0>      |        20.052(R)|      SLOW  |         6.593(R)|      FAST  |pixel_clk         |   0.000|
-rgb<1>      |        20.258(R)|      SLOW  |         6.510(R)|      FAST  |pixel_clk         |   0.000|
-rgb<2>      |        19.886(R)|      SLOW  |         6.468(R)|      FAST  |pixel_clk         |   0.000|
-rgb<3>      |        20.095(R)|      SLOW  |         6.631(R)|      FAST  |pixel_clk         |   0.000|
-rgb<4>      |        20.262(R)|      SLOW  |         6.760(R)|      FAST  |pixel_clk         |   0.000|
-rgb<5>      |        20.218(R)|      SLOW  |         6.540(R)|      FAST  |pixel_clk         |   0.000|
-rgb<6>      |        20.346(R)|      SLOW  |         6.636(R)|      FAST  |pixel_clk         |   0.000|
-rgb<7>      |        20.521(R)|      SLOW  |         6.705(R)|      FAST  |pixel_clk         |   0.000|
+HS          |         6.901(R)|      SLOW  |         4.240(R)|      FAST  |pixel_clk         |   0.000|
+VS          |         6.680(R)|      SLOW  |         4.123(R)|      FAST  |pixel_clk         |   0.000|
+rgb<0>      |        23.895(R)|      SLOW  |         6.441(R)|      FAST  |pixel_clk         |   0.000|
+rgb<1>      |        23.939(R)|      SLOW  |         6.549(R)|      FAST  |pixel_clk         |   0.000|
+rgb<2>      |        23.544(R)|      SLOW  |         6.459(R)|      FAST  |pixel_clk         |   0.000|
+rgb<3>      |        23.629(R)|      SLOW  |         6.319(R)|      FAST  |pixel_clk         |   0.000|
+rgb<4>      |        23.629(R)|      SLOW  |         6.319(R)|      FAST  |pixel_clk         |   0.000|
+rgb<5>      |        24.250(R)|      SLOW  |         6.453(R)|      FAST  |pixel_clk         |   0.000|
+rgb<6>      |        24.205(R)|      SLOW  |         6.403(R)|      FAST  |pixel_clk         |   0.000|
+rgb<7>      |        24.354(R)|      SLOW  |         6.468(R)|      FAST  |pixel_clk         |   0.000|
 ------------+-----------------+------------+-----------------+------------+------------------+--------+
 
 Clock to Setup on destination clock Clk
@@ -63,18 +71,26 @@ Clock to Setup on destination clock Clk
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-Clk            |   64.148|         |         |         |
+Clk            |   60.414|         |         |         |
 ---------------+---------+---------+---------+---------+
 
+Clock to Setup on destination clock PS2KeyboardClock
+----------------+---------+---------+---------+---------+
+                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock    |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------+---------+---------+---------+---------+
+PS2KeyboardClock|         |         |         |    3.128|
+----------------+---------+---------+---------+---------+
 
-Analysis completed Sat May 12 04:54:57 2018 
+
+Analysis completed Mon May 14 12:53:51 2018 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 376 MB
+Peak Memory Usage: 377 MB
 
 
 

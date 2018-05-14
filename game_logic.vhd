@@ -38,8 +38,9 @@ use IEEE.NUMERIC_STD.ALL;
 entity game_logic is
    port ( Clk          : in std_logic;
 	       --Only one bit of player_input should be high at any time, and "000" means no input detected.
-			 --"100 will be "Up", "010" will be "Down", and "001" will be "Reset".
-			 player_input : in std_logic_vector (4 downto 0);
+			 --"1000" will be "Down", "0100" will be "Left", "0010" will be "Up", and "0001" will be "Right".
+			 player_input : in std_logic_vector (3 downto 0);
+			 reset 		  : in std_logic;
 			 -- '1' when paused, '0' when played
 			 paused 		  : in std_logic;
 			 h_player_loc : out STD_LOGIC_VECTOR (1 downto 0);	
@@ -153,16 +154,9 @@ signal lives_left : std_logic_vector (1 downto 0) := "11";
 --quickly the obstacles move across the screen.
 --signal game_clock : std_logic;
 
---This signal will be linked to all components of the game logic, and when it's activated, should
---effectively reset all elements of the game (full lives, 0 score, no obstacles, etc.)
-signal global_reset : std_logic;
-
 
 signal current_score : std_logic_vector (7 downto 0) := "00000000";
 begin
-
-global_reset <= player_input(0);
-
 
 
 --Here we instantiate the four SRs for the four lanes.
@@ -172,7 +166,7 @@ lane1_sr : SR
 						enable => not paused,
 	              obst_in => current_obst_to_L1,
 					     dead => lose_state,
-			          reset => global_reset,
+			          reset => reset,
 					 lane_out => lane1);
 
 lane2_sr : SR
@@ -180,7 +174,7 @@ lane2_sr : SR
 						enable => not paused,
 	              obst_in => current_obst_to_L2,
 					     dead => lose_state,
-				       reset => global_reset,
+				       reset => reset,
 					 lane_out => lane2);
 					 
 lane3_sr : SR
@@ -188,7 +182,7 @@ lane3_sr : SR
 						enable => not paused,
 	              obst_in => current_obst_to_L3,
 					     dead => lose_state,
-				       reset => global_reset,
+				       reset => reset,
 					 lane_out => lane3);
 					 
 lane4_sr : SR
@@ -196,7 +190,7 @@ lane4_sr : SR
 						enable => not paused,
 	              obst_in => current_obst_to_L4,
 					     dead => lose_state,
-				       reset => global_reset,
+				       reset => reset,
 					 lane_out => lane4);
 					 
 --Here, the outputs of the four SRs are tied to the outputs of this game_mechanics module (they'll be sent to graphics module).
@@ -212,7 +206,7 @@ obst_generator : LFSR
    port map ( game_clock => enable_obst_update,
 						enable => not paused,
 	                 dead => lose_state,
-	                reset => global_reset,
+	                reset => reset,
 					 obst_out => current_obst);
 					 
 lane_selector : pick_a_lane
@@ -249,13 +243,13 @@ with current_level select
 	16 when others;
 
 --This process essentially generates our desired "obst clock" with a frequency that changes with the current_score.
-   obst_freq_gen : process(global_reset, Clk)
+   obst_freq_gen : process(reset, Clk)
 	   variable count : integer := 0;
 		variable last_score : integer := 0;
 		variable increment_score_unit : integer := 20;
 
 	begin
-      if (global_reset = '1') then
+      if (reset = '1') then
 			current_level <= "001";
 			count := 0;
 			last_score := 0;
@@ -292,13 +286,13 @@ with current_level select
 				when "1000" => 
 					case (current_h_player_location) is
 						when "01" => 
-							if (player_input = "10000") then
+							if (player_input = "0100") then
 								current_player_location <= "1000";
 								current_h_player_location <= "00";
-							elsif (player_input = "01000") then
+							elsif (player_input = "0001") then
 								current_player_location <= "1000";
 								current_h_player_location <= "10";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0100";
 								current_h_player_location <= "01";
 							else 
@@ -306,10 +300,10 @@ with current_level select
 								current_h_player_location <= "01";
 							end if;
 						when "00" =>
-							if (player_input = "01000") then
+							if (player_input = "0001") then
 								current_player_location <= "1000";
 								current_h_player_location <= "01";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0100";
 								current_h_player_location <= "00";
 							else 
@@ -317,10 +311,10 @@ with current_level select
 								current_h_player_location <= "00";
 							end if;
 						when "10" =>
-							if (player_input = "10000") then
+							if (player_input = "0100") then
 								current_player_location <= "1000";
 								current_h_player_location <= "01";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0100";
 								current_h_player_location <= "10";
 							else 
@@ -334,16 +328,16 @@ with current_level select
 				when "0100" => 
 					case (current_h_player_location) is
 						when "01" => 
-							if (player_input = "01000") then
+							if (player_input = "0001") then
 								current_player_location <= "0100";
 								current_h_player_location <= "10";
-							elsif (player_input = "10000") then
+							elsif (player_input = "0100") then
 								current_player_location <= "0100";
 								current_h_player_location <= "00";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "1000";
 								current_h_player_location <= "01";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0010";
 								current_h_player_location <= "01";
 							else 
@@ -351,13 +345,13 @@ with current_level select
 								current_h_player_location <= "01";
 							end if;
 						when "00" =>
-							if (player_input = "01000") then
+							if (player_input = "0001") then
 								current_player_location <= "0100";
 								current_h_player_location <= "01";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "1000";
 								current_h_player_location <= "00";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0010";
 								current_h_player_location <= "00";
 							else 
@@ -365,13 +359,13 @@ with current_level select
 								current_h_player_location <= "00";
 							end if;
 						when "10" =>
-							if (player_input = "10000") then
+							if (player_input = "0100") then
 								current_player_location <= "0100";
 								current_h_player_location <= "01";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "1000";
 								current_h_player_location <= "10";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0010";
 								current_h_player_location <= "10";
 							else 
@@ -385,16 +379,16 @@ with current_level select
 				when "0010" =>
 					case (current_h_player_location) is
 						when "01" => 
-							if (player_input = "01000") then
+							if (player_input = "0001") then
 								current_player_location <= "0010";
 								current_h_player_location <= "10";
-							elsif (player_input = "10000") then
+							elsif (player_input = "0100") then
 								current_player_location <= "0010";
 								current_h_player_location <= "00";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "0100";
 								current_h_player_location <= "01";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0001";
 								current_h_player_location <= "01";
 							else 
@@ -402,13 +396,13 @@ with current_level select
 								current_h_player_location <= "01";
 							end if;
 						when "00" =>
-							if (player_input = "01000") then
+							if (player_input = "0001") then
 								current_player_location <= "0010";
 								current_h_player_location <= "01";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "0100";
 								current_h_player_location <= "00";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0001";
 								current_h_player_location <= "00";
 							else 
@@ -416,13 +410,13 @@ with current_level select
 								current_h_player_location <= "00";
 							end if;
 						when "10" =>
-							if (player_input = "10000") then
+							if (player_input = "0100") then
 								current_player_location <= "0010";
 								current_h_player_location <= "01";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "0100";
 								current_h_player_location <= "10";
-							elsif (player_input = "00010") then
+							elsif (player_input = "1000") then
 								current_player_location <= "0001";
 								current_h_player_location <= "10";
 							else 
@@ -436,13 +430,13 @@ with current_level select
 				when "0001" => 
 					case (current_h_player_location) is
 						when "01" => 
-							if (player_input = "01000") then
+							if (player_input = "0001") then
 								current_player_location <= "0001";
 								current_h_player_location <= "10";
-							elsif (player_input = "10000") then
+							elsif (player_input = "0100") then
 								current_player_location <= "0001";
 								current_h_player_location <= "00";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "0010";
 								current_h_player_location <= "01";							
 							else 
@@ -450,10 +444,10 @@ with current_level select
 								current_h_player_location <= "01";
 							end if;
 						when "00" =>
-							if (player_input = "01000") then
+							if (player_input = "0001") then
 								current_player_location <= "0001";
 								current_h_player_location <= "01";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "0010";
 								current_h_player_location <= "00";							
 							else 
@@ -463,10 +457,10 @@ with current_level select
 						when "10" =>
 							current_player_location <= "0001";
 							current_h_player_location <= "10";
-							if (player_input = "10000") then
+							if (player_input = "0100") then
 								current_player_location <= "0001";
 								current_h_player_location <= "01";
-							elsif (player_input = "00100") then
+							elsif (player_input = "0010") then
 								current_player_location <= "0010";
 								current_h_player_location <= "10";						
 							else 
@@ -486,11 +480,211 @@ with current_level select
 		end if;
 	end process player_movement;
 
+--	player_movement : process(enable_game_update, player_input)
+--   begin
+--	   if (rising_edge(enable_game_update) and (paused = '0') and (lose_state = '0')) then
+--			case (current_player_location) is
+--				when "1000" => 
+--					case (current_h_player_location) is
+--						when "01" => 
+--							if (player_input = "10000") then
+--								current_player_location <= "1000";
+--								current_h_player_location <= "00";
+--							elsif (player_input = "01000") then
+--								current_player_location <= "1000";
+--								current_h_player_location <= "10";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "01";
+--							else 
+--								current_player_location <= "1000";
+--								current_h_player_location <= "01";
+--							end if;
+--						when "00" =>
+--							if (player_input = "01000") then
+--								current_player_location <= "1000";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "00";
+--							else 
+--								current_player_location <= "1000";
+--								current_h_player_location <= "00";
+--							end if;
+--						when "10" =>
+--							if (player_input = "10000") then
+--								current_player_location <= "1000";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "10";
+--							else 
+--								current_player_location <= "1000";
+--								current_h_player_location <= "10";
+--							end if;
+--						when others => 
+--							current_player_location <= current_player_location;
+--							current_h_player_location <= current_h_player_location;
+--						end case;
+--				when "0100" => 
+--					case (current_h_player_location) is
+--						when "01" => 
+--							if (player_input = "01000") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "10";
+--							elsif (player_input = "10000") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "00";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "1000";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "01";
+--							else 
+--								current_player_location <= "0100";
+--								current_h_player_location <= "01";
+--							end if;
+--						when "00" =>
+--							if (player_input = "01000") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "1000";
+--								current_h_player_location <= "00";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "00";
+--							else 
+--								current_player_location <= "0100";
+--								current_h_player_location <= "00";
+--							end if;
+--						when "10" =>
+--							if (player_input = "10000") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "1000";
+--								current_h_player_location <= "10";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "10";
+--							else 
+--								current_player_location <= "0100";
+--								current_h_player_location <= "10";
+--							end if;
+--						when others => 
+--							current_player_location <= current_player_location;
+--							current_h_player_location <= current_h_player_location;
+--						end case;
+--				when "0010" =>
+--					case (current_h_player_location) is
+--						when "01" => 
+--							if (player_input = "01000") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "10";
+--							elsif (player_input = "10000") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "00";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0001";
+--								current_h_player_location <= "01";
+--							else 
+--								current_player_location <= "0010";
+--								current_h_player_location <= "01";
+--							end if;
+--						when "00" =>
+--							if (player_input = "01000") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "00";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0001";
+--								current_h_player_location <= "00";
+--							else 
+--								current_player_location <= "0010";
+--								current_h_player_location <= "00";
+--							end if;
+--						when "10" =>
+--							if (player_input = "10000") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "0100";
+--								current_h_player_location <= "10";
+--							elsif (player_input = "00010") then
+--								current_player_location <= "0001";
+--								current_h_player_location <= "10";
+--							else 
+--								current_player_location <= "0010";
+--								current_h_player_location <= "10";
+--							end if;
+--						when others =>
+--							current_player_location <= current_player_location;
+--							current_h_player_location <= current_h_player_location;							
+--					end case;
+--				when "0001" => 
+--					case (current_h_player_location) is
+--						when "01" => 
+--							if (player_input = "01000") then
+--								current_player_location <= "0001";
+--								current_h_player_location <= "10";
+--							elsif (player_input = "10000") then
+--								current_player_location <= "0001";
+--								current_h_player_location <= "00";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "01";							
+--							else 
+--								current_player_location <= "0001";
+--								current_h_player_location <= "01";
+--							end if;
+--						when "00" =>
+--							if (player_input = "01000") then
+--								current_player_location <= "0001";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "00";							
+--							else 
+--								current_player_location <= "0001";
+--								current_h_player_location <= "00";
+--							end if;
+--						when "10" =>
+--							current_player_location <= "0001";
+--							current_h_player_location <= "10";
+--							if (player_input = "10000") then
+--								current_player_location <= "0001";
+--								current_h_player_location <= "01";
+--							elsif (player_input = "00100") then
+--								current_player_location <= "0010";
+--								current_h_player_location <= "10";						
+--							else 
+--								current_player_location <= "0001";
+--								current_h_player_location <= "10";
+--							end if;
+--						when others =>
+--							current_player_location <= current_player_location;
+--							current_h_player_location <= current_h_player_location;
+--						end case; 
+--			when others =>
+--				current_player_location <= current_player_location;
+--				current_h_player_location <= current_h_player_location;
+--			end case;
+--			player_loc <= current_player_location;
+--			h_player_loc <= current_h_player_location;
+--		end if;
+--	end process player_movement;
 	
    --This process	is responsible for checking to see if the player runs into an obstacle when the obstacle enters the "player zone".
-	hit_detection : process(global_reset, enable_obst_update)
+	hit_detection : process(reset, enable_obst_update)
 	begin
-      if (global_reset = '1') then
+      if (reset = '1') then
 	      lives_left <= "11";
 		elsif (rising_edge(enable_obst_update) and (paused = '0') and (lose_state = '0') and
 				(
@@ -501,11 +695,11 @@ with current_level select
 				((current_player_location = "0100") and (current_h_player_location = "00") and (lane2(0) = '1')) or
 				((current_player_location = "0100") and (current_h_player_location = "01") and (lane2(1) = '1')) or
 				((current_player_location = "0100") and (current_h_player_location = "10") and (lane2(2) = '1')) or
-				
+
 				((current_player_location = "0010") and (current_h_player_location = "00") and (lane3(0) = '1')) or
 				((current_player_location = "0010") and (current_h_player_location = "01") and (lane3(1) = '1')) or
 				((current_player_location = "0010") and (current_h_player_location = "10") and (lane3(2) = '1')) or
-				
+
 				((current_player_location = "0001") and (current_h_player_location = "00") and (lane4(0) = '1')) or
 				((current_player_location = "0001") and (current_h_player_location = "01") and (lane4(1) = '1')) or
 				((current_player_location = "0001") and (current_h_player_location = "10") and (lane4(2) = '1')))) then
@@ -516,11 +710,11 @@ with current_level select
 
 	--The player's score should be 0 whenever the game starts or is reset,
 	--and with the current system, the player receives 1 point per second.
-	scoring_system : process(global_reset, enable_game_update)
+	scoring_system : process(reset, enable_game_update)
 	variable count : integer := 0;
 	
 	begin
-		if (global_reset = '1') then
+		if (reset = '1') then
 			   current_score <= "00000000";
 		else
 			if (rising_edge(enable_game_update) and (paused = '0')) then
@@ -544,9 +738,9 @@ with current_level select
    --When the player has 0 lives remaining, the game transitions to the lose state,
 	--where the obstacles disappear, the LFSR stops generating new obstacles, the score
 	--stops increasing, and the player's white box turns red.
-   check_for_game_over : process(global_reset, enable_obst_update)
+   check_for_game_over : process(reset, enable_obst_update)
 	begin
-      if (global_reset = '1') then
+      if (reset = '1') then
 		   lose_state <= '0';
 	   elsif (rising_edge(enable_obst_update) and (paused = '0') and (lives_left = "00")) then
 		   lose_state <= '1';
