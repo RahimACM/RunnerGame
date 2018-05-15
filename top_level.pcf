@@ -1,26 +1,11 @@
 //! **************************************************************************
-// Written by: Map P.20131013 on Mon May 14 12:51:47 2018
+// Written by: Map P.20131013 on Tue May 15 22:13:14 2018
 //! **************************************************************************
 
 SCHEMATIC START;
 COMP "HS" LOCATE = SITE "N6" LEVEL 1;
 COMP "VS" LOCATE = SITE "P7" LEVEL 1;
-COMP "LD5" LOCATE = SITE "N11" LEVEL 1;
-COMP "LD6" LOCATE = SITE "R11" LEVEL 1;
-COMP "LD7" LOCATE = SITE "T11" LEVEL 1;
 COMP "Clk" LOCATE = SITE "V10" LEVEL 1;
-COMP "Segs<0>" LOCATE = SITE "M13" LEVEL 1;
-COMP "Segs<1>" LOCATE = SITE "L14" LEVEL 1;
-COMP "Segs<2>" LOCATE = SITE "N14" LEVEL 1;
-COMP "Segs<3>" LOCATE = SITE "M14" LEVEL 1;
-COMP "Segs<4>" LOCATE = SITE "U18" LEVEL 1;
-COMP "Segs<5>" LOCATE = SITE "U17" LEVEL 1;
-COMP "Segs<6>" LOCATE = SITE "T18" LEVEL 1;
-COMP "Segs<7>" LOCATE = SITE "T17" LEVEL 1;
-COMP "AN<0>" LOCATE = SITE "P17" LEVEL 1;
-COMP "AN<1>" LOCATE = SITE "P18" LEVEL 1;
-COMP "AN<2>" LOCATE = SITE "N15" LEVEL 1;
-COMP "AN<3>" LOCATE = SITE "N16" LEVEL 1;
 COMP "reset" LOCATE = SITE "T9" LEVEL 1;
 COMP "PS2KeyboardData" LOCATE = SITE "J13" LEVEL 1;
 COMP "rgb<0>" LOCATE = SITE "R7" LEVEL 1;

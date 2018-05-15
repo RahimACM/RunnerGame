@@ -1,0 +1,11 @@
+[Inputs]
+Clk
+PS2KeyboardClock
+PS2KeyboardData
+reset
+paused
+[Outputs]
+HS
+VS
+=rgb[7:0]=
+[BiDir]

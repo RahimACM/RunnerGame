@@ -8,7 +8,7 @@ run
 -top top_level
 -opt_mode Speed
 -opt_level 1
--power NO
+-power YES
 -iuc NO
 -keep_hierarchy No
 -netlist_hierarchy As_Optimized

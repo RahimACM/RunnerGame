@@ -33,25 +33,27 @@ use ieee.numeric_std.all;
 --use UNISIM.VComponents.all;
 
 entity graphics is
-    Port ( pixel_clk   	: in STD_LOGIC;
-	        player_loc  	: in STD_LOGIC_VECTOR (3 downto 0);
-			  h_player_loc : in STD_LOGIC_VECTOR (1 downto 0);	
-           obst_locs_1,
-           obst_locs_2,
-           obst_locs_3,
-           obst_locs_4 	: in STD_LOGIC_VECTOR (31 downto 0);
-			  level 			: in std_logic_vector (2 downto 0);
-			  score 			: in std_logic_vector (7 downto 0);
-			  top_lives_left : in std_logic_vector (1 downto 0);
-			  dead        	: in STD_LOGIC;
-			  hcount      	: in STD_LOGIC_VECTOR (10 downto 0);
-			  vcount      	: in STD_LOGIC_VECTOR (10 downto 0);
-			  --the rgb signal is 8 bits: 3 for red, 3 for green, and 2 for blue (See Nexys 3 Reference Manual for more information about VGA Port.)
-			  rgb         	: out  STD_LOGIC_VECTOR (7 downto 0));
+    Port (
+		pixel_clk   	: in STD_LOGIC;
+	   player_loc  	: in STD_LOGIC_VECTOR (3 downto 0);
+		h_player_loc 	: in STD_LOGIC_VECTOR (1 downto 0);	
+		obst_locs_1,
+		obst_locs_2,
+		obst_locs_3,
+		obst_locs_4 	: in STD_LOGIC_VECTOR (31 downto 0);
+		level 			: in std_logic_vector (2 downto 0);
+		score 			: in std_logic_vector (7 downto 0);
+		top_lives_left : in std_logic_vector (1 downto 0);
+		dead        	: in STD_LOGIC;
+		hcount      	: in STD_LOGIC_VECTOR (10 downto 0);
+		vcount      	: in STD_LOGIC_VECTOR (10 downto 0);
+		--the rgb signal is 8 bits: 3 for red, 3 for green, and 2 for blue (See Nexys 3 Reference Manual for more information about VGA Port.)
+		rgb         	: out  STD_LOGIC_VECTOR (7 downto 0)
+	);
 end graphics;
 
 architecture Behavioral of graphics is
-constant lane1_t : integer := 100; --distance between the top lane and top of the screen
+
 signal x,y : integer range 0 to 650;
 
 --These signals will...
@@ -827,365 +829,440 @@ score_digit3 <= ((score_integer  - score_digit1 - score_digit2*10 )/100) mod 10;
 
 draw_level <= '1' when
 	(
-	  ((y<=350) and (y>=280) and ((x=80)  or (x=130))) or -- vertical bars
+	  ((y<=350) and (y>=280) and ((x=80) or (x=130))) or -- vertical bars
 	  
-	  (((y=280) or (y=350)) and (x>80)  and (x<130)) or -- horizonal bars
+	  (((y=280) or (y=350)) and (x>80) and (x<130)) or -- horizonal bars
 	  
-	  ((y>300) and (y<305) and (x>100) and (x<110)	and 
+	  ((y>300) and (y<305) and (x>100) and (x<110) and 
 	  (
-	  (level_digit = 0)or
-	  (level_digit = 2)or
-	  (level_digit = 3)or
-	  (level_digit = 5)or
-	  (level_digit = 6)or
-	  (level_digit = 7)or
-	  (level_digit = 8)or
-	  (level_digit = 9)
-	  )) or
+		  (level_digit = 0)or
+		  (level_digit = 2)or
+		  (level_digit = 3)or
+		  (level_digit = 5)or
+		  (level_digit = 6)or
+		  (level_digit = 7)or
+		  (level_digit = 8)or
+		  (level_digit = 9)
+	  )
+	  ) or
 	  ((y>305) and (y<315) and (x>110) and (x <115)	and 
 	  (
-	  (level_digit = 0)or
-	  (level_digit = 1)or
-	  (level_digit = 2)or
-	  (level_digit = 3)or
-	  (level_digit = 4)or
-	  (level_digit = 7)or
-	  (level_digit = 8)or
-	  (level_digit = 9)
-	  ))or
+		  (level_digit = 0)or
+		  (level_digit = 1)or
+		  (level_digit = 2)or
+		  (level_digit = 3)or
+		  (level_digit = 4)or
+		  (level_digit = 7)or
+		  (level_digit = 8)or
+		  (level_digit = 9)
+	  )
+	  )or
 	  ((y>305) and (y<315) and (x>95) and (x <100)	and 
 	  (
-	  (level_digit = 0)or
-	  (level_digit = 4)or
-	  (level_digit = 5)or
-	  (level_digit = 6)or
-	  (level_digit = 8)or
-	  (level_digit = 9)
-	  ))or
+		  (level_digit = 0)or
+		  (level_digit = 4)or
+		  (level_digit = 5)or
+		  (level_digit = 6)or
+		  (level_digit = 8)or
+		  (level_digit = 9)
+	  )
+	  )or
 	  ((y>315) and (y<320) and (x>100) and (x <110)	and 
 	  (
-	  (level_digit = 2)or
-	  (level_digit = 3)or
-	  (level_digit = 4)or
-	  (level_digit = 5)or
-	  (level_digit = 6)or
-	  (level_digit = 8)or
-	  (level_digit = 9)
-	  ))or
+		  (level_digit = 2)or
+		  (level_digit = 3)or
+		  (level_digit = 4)or
+		  (level_digit = 5)or
+		  (level_digit = 6)or
+		  (level_digit = 8)or
+		  (level_digit = 9)
+	  )
+	  )or
 	  ((y>320) and (y<330) and (x>110) and (x <115)	and 
 	  (
-	  (level_digit = 0)or
-	  (level_digit = 1)or
-	  (level_digit = 3)or
-	  (level_digit = 4)or
-	  (level_digit = 5)or
-	  (level_digit = 6)or
-	  (level_digit = 7)or
-	  (level_digit = 8)or
-	  (level_digit = 9)
-	  ))or
+		  (level_digit = 0)or
+		  (level_digit = 1)or
+		  (level_digit = 3)or
+		  (level_digit = 4)or
+		  (level_digit = 5)or
+		  (level_digit = 6)or
+		  (level_digit = 7)or
+		  (level_digit = 8)or
+		  (level_digit = 9)
+	  )
+	  )or
 	  ((y>320) and (y<330) and (x>95) and (x <100)	and 
 	  (
-	  (level_digit = 0)or
-	  (level_digit = 2)or
-	  (level_digit = 6)or
-	  (level_digit = 8)
-	  ))or
+		  (level_digit = 0)or
+		  (level_digit = 2)or
+		  (level_digit = 6)or
+		  (level_digit = 8)
+	  )
+	  )or
 	  ((y>330) and (y<335) and (x>100) and (x <110)	and 
 	  (
-	  (level_digit = 0)or
-	  (level_digit = 2)or
-	  (level_digit = 3)or
-	  (level_digit = 5)or
-	  (level_digit = 6)or
-	  (level_digit = 8)or
-	  (level_digit = 9)
-	  ))
-	  
+		  (level_digit = 0)or
+		  (level_digit = 2)or
+		  (level_digit = 3)or
+		  (level_digit = 5)or
+		  (level_digit = 6)or
+		  (level_digit = 8)or
+		  (level_digit = 9)
+	  )
+	  )or
+	  ((y>250) and (y<270) and (x>50) and (x <55))or
+	  ((y>=270) and (y<275) and (x>50) and (x <65))or
+		
+	  ((y>=250) and (y<275) and (x>70) and (x <75))or
+	  ((y>=250) and (y<255) and (x>70) and (x <85))or
+	  ((y>=260) and (y<265) and (x>70) and (x <85))or
+	  ((y>=270) and (y<275) and (x>70) and (x <85))or
+		 
+     ((y>=250) and (y<270) and (x>90) and (x <95))or
+  	  ((y>=250) and (y<270) and (x>100) and (x <105))or
+	  ((y>=270) and (y<275) and (x>94) and (x <101))or
+		 
+		 
+	  ((y>=250) and (y<270) and (x>110) and (x <115))or
+  	  ((y>=250) and (y<255) and (x>110) and (x <125))or
+	  ((y>=260) and (y<265) and (x>110) and (x <125))or
+	  ((y>=270) and (y<275) and (x>110) and (x <125))or
+		 
+	  ((y>=250) and (y<270) and (x>130) and (x <135))or
+	  ((y>=270) and (y<275) and (x>130) and (x <145))
 	) else '0';
 
 draw_line <= '1' when
- (
-  ((y=60) and (x>180)  and (x < 530)) or --and (x mod 10 < 7)
-  ((y=160) and (x>180) and (x mod 10 < 7) and (x < 530)) or
-  ((y=260) and (x>180) and (x mod 10 < 7) and (x < 530)) or
-  ((y=360) and (x>180) and (x mod 10 < 7) and (x < 530)) or
-  ((y=460) and (x>180)  and (x < 530)) or --and (x mod 10 < 7)
+	(
+		((y=60) and (x>180)  and (x < 530)) or --and (x mod 10 < 7)
+		((y=160) and (x>180) and (x mod 10 < 7) and (x < 530)) or
+		((y=260) and (x>180) and (x mod 10 < 7) and (x < 530)) or
+		((y=360) and (x>180) and (x mod 10 < 7) and (x < 530)) or
+		((y=460) and (x>180)  and (x < 530)) or --and (x mod 10 < 7)
   
-  --((y<460) and (y>60) and ((x=180)  or (x = 530))) or-- vertical
+		((y<=150) and (y>=80) and ((x=50)  or (x = 160))) or-- vertical score
+	  
+		(((y=80) or (y=150)) and (x>50)  and (x < 160)) or --horizon score 
   
-  
-  
-  ((y<=150) and (y>=80) and ((x=50)  or (x = 160))) or-- vertical score
-  
-  (((y=80) or (y=150)) and (x>50)  and (x < 160)) or --horizon score 
-  
-  --score_digit1 
-  ((y>100) and (y<105) and (x>130) and (x <140)	and 
-  (
-  (score_digit1 = 0)or
-  (score_digit1 = 2)or
-  (score_digit1 = 3)or
-  (score_digit1 = 5)or
-  (score_digit1 = 6)or
-  (score_digit1 = 7)or
-  (score_digit1 = 8)or
-  (score_digit1 = 9)
-  ))or
-  ((y>105) and (y<115) and (x>140) and (x <145)	and 
-  (
-  (score_digit1 = 0)or
-  (score_digit1 = 1)or
-  (score_digit1 = 2)or
-  (score_digit1 = 3)or
-  (score_digit1 = 4)or
-  (score_digit1 = 7)or
-  (score_digit1 = 8)or
-  (score_digit1 = 9)
-  ))or
-  ((y>105) and (y<115) and (x>125) and (x <130)	and 
-  (
-  (score_digit1 = 0)or
-  (score_digit1 = 4)or
-  (score_digit1 = 5)or
-  (score_digit1 = 6)or
-  (score_digit1 = 8)or
-  (score_digit1 = 9)
-  ))or
-  ((y>115) and (y<120) and (x>130) and (x <140)	and 
-  (
-  (score_digit1 = 2)or
-  (score_digit1 = 3)or
-  (score_digit1 = 4)or
-  (score_digit1 = 5)or
-  (score_digit1 = 6)or
-  (score_digit1 = 8)or
-  (score_digit1 = 9)
-  ))or
-  ((y>120) and (y<130) and (x>140) and (x <145)	and 
-  (
-  (score_digit1 = 0)or
-  (score_digit1 = 1)or
-  (score_digit1 = 3)or
-  (score_digit1 = 4)or
-  (score_digit1 = 5)or
-  (score_digit1 = 6)or
-  (score_digit1 = 7)or
-  (score_digit1 = 8)or
-  (score_digit1 = 9)
-  ))or
-  ((y>120) and (y<130) and (x>125) and (x <130)	and 
-  (
-  (score_digit1 = 0)or
-  (score_digit1 = 2)or
-  (score_digit1 = 6)or
-  (score_digit1 = 8)
-  ))or
-  ((y>130) and (y<135) and (x>130) and (x <140)	and 
-  (
-  (score_digit1 = 0)or
-  (score_digit1 = 2)or
-  (score_digit1 = 3)or
-  (score_digit1 = 5)or
-  (score_digit1 = 6)or
-  (score_digit1 = 8)or
-  (score_digit1 = 9)
-  ))or
-  
-  --score_digit2
-  ((y>100) and (y<105) and (x>100) and (x <110) and 
-  (
-  (score_digit2 = 0)or
-  (score_digit2 = 2)or
-  (score_digit2 = 3)or
-  (score_digit2 = 5)or
-  (score_digit2 = 6)or
-  (score_digit2 = 7)or
-  (score_digit2 = 8)or
-  (score_digit2 = 9)
-  ))or
-  ((y>105) and (y<115) and (x>110) and (x <115) and 
-  (
-  (score_digit2 = 0)or
-  (score_digit2 = 1)or
-  (score_digit2 = 2)or
-  (score_digit2 = 3)or
-  (score_digit2 = 4)or
-  (score_digit2 = 7)or
-  (score_digit2 = 8)or
-  (score_digit2 = 9)
-  ))or
-  ((y>105) and (y<115) and (x>95) and (x <100) and 
-  (
-  (score_digit2 = 0)or
-  (score_digit2 = 4)or
-  (score_digit2 = 5)or
-  (score_digit2 = 6)or
-  (score_digit2 = 8)or
-  (score_digit2 = 9)
-  ))or
-  ((y>115) and (y<120) and (x>100) and (x <110) and 
-  (
-  (score_digit2 = 2)or
-  (score_digit2 = 3)or
-  (score_digit2 = 4)or
-  (score_digit2 = 5)or
-  (score_digit2 = 6)or
-  (score_digit2 = 8)or
-  (score_digit2 = 9)
-  ))or
-  ((y>120) and (y<130) and (x>110) and (x <115) 	and 
-  (
-  (score_digit2 = 0)or
-  (score_digit2 = 1)or
-  (score_digit2 = 3)or
-  (score_digit2 = 4)or
-  (score_digit2 = 5)or
-  (score_digit2 = 6)or
-  (score_digit2 = 7)or
-  (score_digit2 = 8)or
-  (score_digit2 = 9)
-  ))or
-  ((y>120) and (y<130) and (x>95) and (x <100) 	and 
-  (
-  (score_digit2 = 0)or
-  (score_digit2 = 2)or
-  (score_digit2 = 6)or
-  (score_digit2 = 8)
-  ))or
-  ((y>130) and (y<135) and (x>100) and (x <110) 	and 
-  (
-  (score_digit2 = 0)or
-  (score_digit2 = 2)or
-  (score_digit2 = 3)or
-  (score_digit2 = 5)or
-  (score_digit2 = 6)or
-  (score_digit2 = 8)or
-  (score_digit2 = 9)
-  ))or
-  
-  --score_digit3
- 
-  ((y>100) and (y<105) and (x>70) and (x <80) and 
-  (
-  (score_digit3 = 0)or
-  (score_digit3 = 2)or
-  (score_digit3 = 3)or
-  (score_digit3 = 5)or
-  (score_digit3 = 6)or
-  (score_digit3 = 7)or
-  (score_digit3 = 8)or
-  (score_digit3 = 9)
-  ))or
-  ((y>105) and (y<115) and (x>80) and (x <85) and 
-  (
-  (score_digit3 = 0)or
-  (score_digit3 = 1)or
-  (score_digit3 = 2)or
-  (score_digit3 = 3)or
-  (score_digit3 = 4)or
-  (score_digit3 = 7)or
-  (score_digit3 = 8)or
-  (score_digit3 = 9)
-  ))or
-  ((y>105) and (y<115) and (x>65) and (x <70) and 
-  (
-  (score_digit3 = 0)or
-  (score_digit3 = 4)or
-  (score_digit3 = 5)or
-  (score_digit3 = 6)or
-  (score_digit3 = 8)or
-  (score_digit3 = 9)
-  ))or
-  ((y>115) and (y<120) and (x>70) and (x <80) and 
-  (
-  (score_digit3 = 2)or
-  (score_digit3 = 3)or
-  (score_digit3 = 4)or
-  (score_digit3 = 5)or
-  (score_digit3 = 6)or
-  (score_digit3 = 8)or
-  (score_digit3 = 9)
-  ))or
-  ((y>120) and (y<130) and (x>80) and (x <85) 	and 
-  (
-  (score_digit3 = 0)or
-  (score_digit3 = 1)or
-  (score_digit3 = 3)or
-  (score_digit3 = 4)or
-  (score_digit3 = 5)or
-  (score_digit3 = 6)or
-  (score_digit3 = 7)or
-  (score_digit3 = 8)or
-  (score_digit3 = 9)
-  ))or
-  ((y>120) and (y<130) and (x>65) and (x <70) 	and 
-  (
-  (score_digit3 = 0)or
-  (score_digit3 = 2)or
-  (score_digit3 = 6)or
-  (score_digit3 = 8)
-  ))or
-  ((y>130) and (y<135) and (x>70) and (x <80) and 
-  (
-  (score_digit3 = 0)or
-  (score_digit3 = 2)or
-  (score_digit3 = 3)or
-  (score_digit3 = 5)or
-  (score_digit3 = 6)or
-  (score_digit3 = 8)or
-  (score_digit3 = 9)
-  ))
+		--score_digit1 
+		((y>100) and (y<105) and (x>130) and (x <140)	and 
+		(
+		  (score_digit1 = 0)or
+		  (score_digit1 = 2)or
+		  (score_digit1 = 3)or
+		  (score_digit1 = 5)or
+		  (score_digit1 = 6)or
+		  (score_digit1 = 7)or
+		  (score_digit1 = 8)or
+		  (score_digit1 = 9)
+		)
+		)or
+		((y>105) and (y<115) and (x>140) and (x <145)	and 
+		(
+		  (score_digit1 = 0)or
+		  (score_digit1 = 1)or
+		  (score_digit1 = 2)or
+		  (score_digit1 = 3)or
+		  (score_digit1 = 4)or
+		  (score_digit1 = 7)or
+		  (score_digit1 = 8)or
+		  (score_digit1 = 9)
+		)
+		)or
+		((y>105) and (y<115) and (x>125) and (x <130)	and 
+		(
+		  (score_digit1 = 0)or
+		  (score_digit1 = 4)or
+		  (score_digit1 = 5)or
+		  (score_digit1 = 6)or
+		  (score_digit1 = 8)or
+		  (score_digit1 = 9)
+		)
+		)or
+		((y>115) and (y<120) and (x>130) and (x <140)	and 
+		(
+		  (score_digit1 = 2)or
+		  (score_digit1 = 3)or
+		  (score_digit1 = 4)or
+		  (score_digit1 = 5)or
+		  (score_digit1 = 6)or
+		  (score_digit1 = 8)or
+		  (score_digit1 = 9)
+		)
+		)or
+		((y>120) and (y<130) and (x>140) and (x <145)	and 
+		(
+		  (score_digit1 = 0)or
+		  (score_digit1 = 1)or
+		  (score_digit1 = 3)or
+		  (score_digit1 = 4)or
+		  (score_digit1 = 5)or
+		  (score_digit1 = 6)or
+		  (score_digit1 = 7)or
+		  (score_digit1 = 8)or
+		  (score_digit1 = 9)
+		)
+		)or
+		((y>120) and (y<130) and (x>125) and (x <130)	and 
+		(
+		  (score_digit1 = 0)or
+		  (score_digit1 = 2)or
+		  (score_digit1 = 6)or
+		  (score_digit1 = 8)
+		)
+		)or
+		((y>130) and (y<135) and (x>130) and (x <140)	and 
+		(
+		  (score_digit1 = 0)or
+		  (score_digit1 = 2)or
+		  (score_digit1 = 3)or
+		  (score_digit1 = 5)or
+		  (score_digit1 = 6)or
+		  (score_digit1 = 8)or
+		  (score_digit1 = 9)
+		)
+		)or
+	  
+		--score_digit2
+		((y>100) and (y<105) and (x>100) and (x <110) and 
+		(
+		  (score_digit2 = 0)or
+		  (score_digit2 = 2)or
+		  (score_digit2 = 3)or
+		  (score_digit2 = 5)or
+		  (score_digit2 = 6)or
+		  (score_digit2 = 7)or
+		  (score_digit2 = 8)or
+		  (score_digit2 = 9)
+		)
+		)or
+		((y>105) and (y<115) and (x>110) and (x <115) and 
+		(
+		  (score_digit2 = 0)or
+		  (score_digit2 = 1)or
+		  (score_digit2 = 2)or
+		  (score_digit2 = 3)or
+		  (score_digit2 = 4)or
+		  (score_digit2 = 7)or
+		  (score_digit2 = 8)or
+		  (score_digit2 = 9)
+		)
+		)or
+		((y>105) and (y<115) and (x>95) and (x <100) and 
+		(
+		  (score_digit2 = 0)or
+		  (score_digit2 = 4)or
+		  (score_digit2 = 5)or
+		  (score_digit2 = 6)or
+		  (score_digit2 = 8)or
+		  (score_digit2 = 9)
+		)
+		)or
+		((y>115) and (y<120) and (x>100) and (x <110) and 
+		(
+		  (score_digit2 = 2)or
+		  (score_digit2 = 3)or
+		  (score_digit2 = 4)or
+		  (score_digit2 = 5)or
+		  (score_digit2 = 6)or
+		  (score_digit2 = 8)or
+		  (score_digit2 = 9)
+		)
+		)or
+		((y>120) and (y<130) and (x>110) and (x <115) 	and 
+		(
+		  (score_digit2 = 0)or
+		  (score_digit2 = 1)or
+		  (score_digit2 = 3)or
+		  (score_digit2 = 4)or
+		  (score_digit2 = 5)or
+		  (score_digit2 = 6)or
+		  (score_digit2 = 7)or
+		  (score_digit2 = 8)or
+		  (score_digit2 = 9)
+		)
+		)or
+		((y>120) and (y<130) and (x>95) and (x <100) 	and 
+		(
+		  (score_digit2 = 0)or
+		  (score_digit2 = 2)or
+		  (score_digit2 = 6)or
+		  (score_digit2 = 8)
+		)
+		)or
+		((y>130) and (y<135) and (x>100) and (x <110) 	and 
+		(
+		  (score_digit2 = 0)or
+		  (score_digit2 = 2)or
+		  (score_digit2 = 3)or
+		  (score_digit2 = 5)or
+		  (score_digit2 = 6)or
+		  (score_digit2 = 8)or
+		  (score_digit2 = 9)
+		)
+		)or
+	  
+		--score_digit3
+		((y>100) and (y<105) and (x>70) and (x <80) and 
+		(
+			(score_digit3 = 0)or
+			(score_digit3 = 2)or
+			(score_digit3 = 3)or
+			(score_digit3 = 5)or
+			(score_digit3 = 6)or
+			(score_digit3 = 7)or
+			(score_digit3 = 8)or
+			(score_digit3 = 9)
+		)
+		)or
+		((y>105) and (y<115) and (x>80) and (x <85) and 
+		(
+		  (score_digit3 = 0)or
+		  (score_digit3 = 1)or
+		  (score_digit3 = 2)or
+		  (score_digit3 = 3)or
+		  (score_digit3 = 4)or
+		  (score_digit3 = 7)or
+		  (score_digit3 = 8)or
+		  (score_digit3 = 9)
+		)
+		)or
+		((y>105) and (y<115) and (x>65) and (x <70) and 
+		(
+		  (score_digit3 = 0)or
+		  (score_digit3 = 4)or
+		  (score_digit3 = 5)or
+		  (score_digit3 = 6)or
+		  (score_digit3 = 8)or
+		  (score_digit3 = 9)
+		)
+		)or
+		((y>115) and (y<120) and (x>70) and (x <80) and 
+		(
+		  (score_digit3 = 2)or
+		  (score_digit3 = 3)or
+		  (score_digit3 = 4)or
+		  (score_digit3 = 5)or
+		  (score_digit3 = 6)or
+		  (score_digit3 = 8)or
+		  (score_digit3 = 9)
+		)
+		)or
+		((y>120) and (y<130) and (x>80) and (x <85) 	and 
+		(
+		  (score_digit3 = 0)or
+		  (score_digit3 = 1)or
+		  (score_digit3 = 3)or
+		  (score_digit3 = 4)or
+		  (score_digit3 = 5)or
+		  (score_digit3 = 6)or
+		  (score_digit3 = 7)or
+		  (score_digit3 = 8)or
+		  (score_digit3 = 9)
+		)
+		)or
+		((y>120) and (y<130) and (x>65) and (x <70) 	and 
+		(
+		  (score_digit3 = 0)or
+		  (score_digit3 = 2)or
+		  (score_digit3 = 6)or
+		  (score_digit3 = 8)
+		)
+		)or
+		((y>130) and (y<135) and (x>70) and (x <80) and 
+		(
+		  (score_digit3 = 0)or
+		  (score_digit3 = 2)or
+		  (score_digit3 = 3)or
+		  (score_digit3 = 5)or
+		  (score_digit3 = 6)or
+		  (score_digit3 = 8)or
+		  (score_digit3 = 9)
+		)
+		)or
+		((y>50) and (y<55) and (x>45) and (x <65))or
+	   ((y>50) and (y<=60) and (x>45) and (x <50))or
+	   ((y>60) and (y<65) and (x>45) and (x <65))or
+		((y>60) and (y<=70) and (x>60) and (x <65))or
+		((y>70) and (y<75) and (x>45) and (x <65))or
+		 
+		((y>50) and (y<55) and (x>70) and (x <85))or
+	   ((y>50) and (y<75) and (x>70) and (x <75))or
+		((y>70) and (y<75) and (x>70) and (x <85))or
+		 
+		((y>50) and (y<55) and (x>90) and (x <105))or
+	   ((y>50) and (y<75) and (x>90) and (x <95))or
+		((y>50) and (y<75) and (x>100) and (x <105))or
+		((y>70) and (y<75) and (x>90) and (x <105))or
 
- )else '0';
- 
+		((y>50) and (y<55) and (x>110) and (x <125))or
+	   ((y>50) and (y<75) and (x>110) and (x <115))or
+		((y>50) and (y<=60) and (x>120) and (x <125))or
+		((y>60) and (y<65) and (x>110) and (x <122))or
+		((y>=65) and (y<75) and (x>120) and (x <125))or
+          
+		 
+		((y>50) and (y<75) and (x>130) and (x <135))or
+		((y>70) and (y<75) and (x>130) and (x <145))or
+		((y>60) and (y<65) and (x>130) and (x <145))or
+		((y>50) and (y<55) and (x>130) and (x <145))
+	)else '0';
+
 draw_life <= '1' when
- 
+	(
+		((y<=240) and (y>=190) and ((x=50)  or (x = 160))) or-- vertical score
+	  
+		(((y=190) or (y=240)) and (x>50)  and (x < 160)) or --horizon score
+	  
+		((y>200) and (y<205) and (x>140) and (x <145) and (top_lives_left="01"))or
+		((y>225) and (y<230) and (x>140) and (x <145) and (top_lives_left="01"))or
+		((y>200) and (y<230) and (x>130) and (x <140) and (top_lives_left="01"))or
+		((y>200) and (y<205) and (x>125) and (x <130) and (top_lives_left="01"))or
+		((y>225) and (y<230) and (x>125) and (x <130) and (top_lives_left="01"))or
 
- (
-((y<=240) and (y>=190) and ((x=50)  or (x = 160))) or-- vertical score
-  
-  (((y=190) or (y=240)) and (x>50)  and (x < 160)) or --horizon score
-  
- ((y>200) and (y<205) and (x>140) and (x <145)	and (top_lives_left="01")  )or
- ((y>225) and (y<230) and (x>140) and (x <145)	and (top_lives_left="01")  )or
- ((y>200) and (y<230) and (x>130) and (x <140)	and (top_lives_left="01")  )or
- ((y>200) and (y<205) and (x>125) and (x <130)	and (top_lives_left="01")  )or
- ((y>225) and (y<230) and (x>125) and (x <130)	and (top_lives_left="01")  )or
+		((y>200) and (y<205) and (x>140) and (x <145) and (top_lives_left="10"))or
+		((y>225) and (y<230) and (x>140) and (x <145) and (top_lives_left="10"))or
+		((y>200) and (y<230) and (x>130) and (x <140) and (top_lives_left="10"))or
+		((y>200) and (y<205) and (x>125) and (x <130) and (top_lives_left="10"))or
+		((y>225) and (y<230) and (x>125) and (x <130) and (top_lives_left="10"))or
 
- ((y>200) and (y<205) and (x>140) and (x <145)	and (top_lives_left="10")  )or
- ((y>225) and (y<230) and (x>140) and (x <145)	and (top_lives_left="10")  )or
- ((y>200) and (y<230) and (x>130) and (x <140)	and (top_lives_left="10")  )or
- ((y>200) and (y<205) and (x>125) and (x <130)	and (top_lives_left="10")  )or
- ((y>225) and (y<230) and (x>125) and (x <130)	and (top_lives_left="10")  )or
+		((y>200) and (y<205) and (x>140) and (x <145) and (top_lives_left="11"))or
+		((y>225) and (y<230) and (x>140) and (x <145) and (top_lives_left="11"))or
+		((y>200) and (y<230) and (x>130) and (x <140) and (top_lives_left="11"))or
+		((y>200) and (y<205) and (x>125) and (x <130) and (top_lives_left="11"))or
+		((y>225) and (y<230) and (x>125) and (x <130) and (top_lives_left="11"))or
 
- ((y>200) and (y<205) and (x>140) and (x <145)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>140) and (x <145)	and (top_lives_left="11")  )or
- ((y>200) and (y<230) and (x>130) and (x <140)	and (top_lives_left="11")  )or
- ((y>200) and (y<205) and (x>125) and (x <130)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>125) and (x <130)	and (top_lives_left="11")  )or
+		((y>200) and (y<205) and (x>110) and (x <115) and (top_lives_left="10"))or
+		((y>225) and (y<230) and (x>110) and (x <115) and (top_lives_left="10"))or
+		((y>200) and (y<230) and (x>100) and (x <110) and (top_lives_left="10"))or
+		((y>200) and (y<205) and (x>95) and (x <100)	and (top_lives_left="10"))or
+		((y>225) and (y<230) and (x>95) and (x <100)	and (top_lives_left="10"))or
 
+	  
+		((y>200) and (y<205) and (x>110) and (x <115) and (top_lives_left="11"))or
+		((y>225) and (y<230) and (x>110) and (x <115) and (top_lives_left="11"))or
+		((y>200) and (y<230) and (x>100) and (x <110) and (top_lives_left="11"))or
+		((y>200) and (y<205) and (x>95) and (x <100)	and (top_lives_left="11"))or
+		((y>225) and (y<230) and (x>95) and (x <100)	and (top_lives_left="11"))or
 
-
-  ((y>200) and (y<205) and (x>110) and (x <115)	and (top_lives_left="10") 	)or
- ((y>225) and (y<230) and (x>110) and (x <115)	and (top_lives_left="10")  )or
- ((y>200) and (y<230) and (x>100) and (x <110)	and (top_lives_left="10")  )or
- ((y>200) and (y<205) and (x>95) and (x <100)	and (top_lives_left="10")  )or
- ((y>225) and (y<230) and (x>95) and (x <100)	and (top_lives_left="10")  )or
-
-  
-( (y>200) and (y<205) and (x>110) and (x <115)	and (top_lives_left="11") 	)or
- ((y>225) and (y<230) and (x>110) and (x <115)	and (top_lives_left="11")  )or
- ((y>200) and (y<230) and (x>100) and (x <110)	and (top_lives_left="11")  )or
- ((y>200) and (y<205) and (x>95) and (x <100)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>95) and (x <100)	and (top_lives_left="11")  )or
-  
-( (y>200) and (y<205) and (x>80) and (x <85)	and (top_lives_left="11") 	)or
- ((y>225) and (y<230) and (x>80) and (x <85)	and (top_lives_left="11")  )or
- ((y>200) and (y<230) and (x>70) and (x <80)	and (top_lives_left="11")  )or
- ((y>200) and (y<205) and (x>65) and (x <70)	and (top_lives_left="11")  )or
- ((y>225) and (y<230) and (x>65) and (x <70)	and (top_lives_left="11")  )
- )else '0';
+		((y>200) and (y<205) and (x>80) and (x <85) and (top_lives_left="11"))or
+		((y>225) and (y<230) and (x>80) and (x <85) and (top_lives_left="11"))or
+		((y>200) and (y<230) and (x>70) and (x <80) and (top_lives_left="11"))or
+		((y>200) and (y<205) and (x>65) and (x <70) and (top_lives_left="11"))or
+		((y>225) and (y<230) and (x>65) and (x <70) and (top_lives_left="11"))or 
+	  
+		((y>165) and (y<185) and (x>50) and (x <55))or
+	   ((y>180) and (y<185) and (x>50) and (x <65))or
+	   ((y>165) and (y<185) and (x>70) and (x <75))or
+		((y>165) and (y<185) and (x>80) and (x <85))or
+		((y>165) and (y<170) and (x>=85) and (x <95))or
+		((y>173) and (y<178) and (x>=85) and (x <93))or
+		
+		((y>165) and (y<185) and (x>100) and (x <105))or
+		((y>180) and (y<185) and (x>100) and (x <115))or
+		((y>173) and (y<178) and (x>100) and (x <115))or
+		((y>165) and (y<170) and (x>100) and (x <115))
+	)else '0';
 
 --mux
 

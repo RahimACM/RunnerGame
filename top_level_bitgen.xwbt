@@ -1,8 +1,8 @@
 INTSTYLE=ise
-INFILE=D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\top_level.ncd
-OUTFILE=D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development\top_level.bit
+INFILE=D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development optim\top_level.ncd
+OUTFILE=D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development optim\top_level.bit
 FAMILY=Spartan6
 PART=xc6slx16-3csg324
-WORKINGDIR=D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development
+WORKINGDIR=D:\ESI\2CS\S2\SEMB\TD\Mini projet\RunnerGameProjectV2 development optim
 LICENSE=WebPack
 USER_INFO=210821714_0_0_756

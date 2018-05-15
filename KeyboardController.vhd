@@ -28,8 +28,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --use UNISIM.VComponents.all;
 
 entity KeyboardController is
-    Port ( Clock : in STD_LOGIC;
-	        PS2KeyboardClock : in  STD_LOGIC;
+    Port ( PS2KeyboardClock : in  STD_LOGIC;
            PS2KeyboardData : in  STD_LOGIC;
 			  RightArrow : out STD_LOGIC;
 			  UpArrow : out STD_LOGIC;
@@ -40,15 +39,15 @@ end KeyboardController;
 
 architecture Behavioral of KeyboardController is
 
-signal bitCount : integer range 0 to 100 := 0;
+signal bitCount 		: integer range 0 to 100 := 0;
 signal scancodeReady : STD_LOGIC := '0';
-signal scancode : STD_LOGIC_VECTOR(7 downto 0);
+signal scancode 		: STD_LOGIC_VECTOR(7 downto 0);
 signal breakReceived : STD_LOGIC := '0';
 
-constant keyboardLeftArrow : STD_LOGIC_VECTOR(7 downto 0) := "01101011";
-constant keyboardDownArrow : STD_LOGIC_VECTOR(7 downto 0) := "01110010";
+constant keyboardLeftArrow  : STD_LOGIC_VECTOR(7 downto 0) := "01101011";
+constant keyboardDownArrow  : STD_LOGIC_VECTOR(7 downto 0) := "01110010";
 constant keyboardRightArrow : STD_LOGIC_VECTOR(7 downto 0) := "01110100";
-constant keyboardUpArrow : STD_LOGIC_VECTOR(7 downto 0) := "01110101";
+constant keyboardUpArrow 	 : STD_LOGIC_VECTOR(7 downto 0) := "01110101";
 
 begin
 

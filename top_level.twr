@@ -37,8 +37,8 @@ Setup/Hold to clock Clk
             |Max Setup to|  Process   |Max Hold to |  Process   |                  | Clock  |
 Source      | clk (edge) |   Corner   | clk (edge) |   Corner   |Internal Clock(s) | Phase  |
 ------------+------------+------------+------------+------------+------------------+--------+
-paused      |    8.800(R)|      SLOW  |   -2.838(R)|      FAST  |pixel_clk         |   0.000|
-reset       |    7.668(R)|      SLOW  |   -1.374(R)|      FAST  |pixel_clk         |   0.000|
+paused      |    8.837(R)|      SLOW  |   -2.384(R)|      FAST  |pixel_clk         |   0.000|
+reset       |    7.333(R)|      SLOW  |   -1.385(R)|      FAST  |pixel_clk         |   0.000|
 ------------+------------+------------+------------+------------+------------------+--------+
 
 Setup/Hold to clock PS2KeyboardClock
@@ -46,7 +46,7 @@ Setup/Hold to clock PS2KeyboardClock
                |Max Setup to|  Process   |Max Hold to |  Process   |                      | Clock  |
 Source         | clk (edge) |   Corner   | clk (edge) |   Corner   |Internal Clock(s)     | Phase  |
 ---------------+------------+------------+------------+------------+----------------------+--------+
-PS2KeyboardData|    3.419(F)|      SLOW  |   -1.267(F)|      FAST  |PS2KeyboardClock_BUFGP|   0.000|
+PS2KeyboardData|    2.174(F)|      SLOW  |   -0.423(F)|      SLOW  |PS2KeyboardClock_BUFGP|   0.000|
 ---------------+------------+------------+------------+------------+----------------------+--------+
 
 Clock Clk to Pad
@@ -54,16 +54,16 @@ Clock Clk to Pad
             |Max (slowest) clk|  Process   |Min (fastest) clk|  Process   |                  | Clock  |
 Destination |  (edge) to PAD  |   Corner   |  (edge) to PAD  |   Corner   |Internal Clock(s) | Phase  |
 ------------+-----------------+------------+-----------------+------------+------------------+--------+
-HS          |         6.901(R)|      SLOW  |         4.240(R)|      FAST  |pixel_clk         |   0.000|
-VS          |         6.680(R)|      SLOW  |         4.123(R)|      FAST  |pixel_clk         |   0.000|
-rgb<0>      |        23.895(R)|      SLOW  |         6.441(R)|      FAST  |pixel_clk         |   0.000|
-rgb<1>      |        23.939(R)|      SLOW  |         6.549(R)|      FAST  |pixel_clk         |   0.000|
-rgb<2>      |        23.544(R)|      SLOW  |         6.459(R)|      FAST  |pixel_clk         |   0.000|
-rgb<3>      |        23.629(R)|      SLOW  |         6.319(R)|      FAST  |pixel_clk         |   0.000|
-rgb<4>      |        23.629(R)|      SLOW  |         6.319(R)|      FAST  |pixel_clk         |   0.000|
-rgb<5>      |        24.250(R)|      SLOW  |         6.453(R)|      FAST  |pixel_clk         |   0.000|
-rgb<6>      |        24.205(R)|      SLOW  |         6.403(R)|      FAST  |pixel_clk         |   0.000|
-rgb<7>      |        24.354(R)|      SLOW  |         6.468(R)|      FAST  |pixel_clk         |   0.000|
+HS          |         6.482(R)|      SLOW  |         3.973(R)|      FAST  |pixel_clk         |   0.000|
+VS          |         6.413(R)|      SLOW  |         3.940(R)|      FAST  |pixel_clk         |   0.000|
+rgb<0>      |        20.406(R)|      SLOW  |         6.029(R)|      FAST  |pixel_clk         |   0.000|
+rgb<1>      |        20.703(R)|      SLOW  |         6.312(R)|      FAST  |pixel_clk         |   0.000|
+rgb<2>      |        20.511(R)|      SLOW  |         6.126(R)|      FAST  |pixel_clk         |   0.000|
+rgb<3>      |        20.400(R)|      SLOW  |         6.229(R)|      FAST  |pixel_clk         |   0.000|
+rgb<4>      |        20.379(R)|      SLOW  |         6.205(R)|      FAST  |pixel_clk         |   0.000|
+rgb<5>      |        20.143(R)|      SLOW  |         6.188(R)|      FAST  |pixel_clk         |   0.000|
+rgb<6>      |        20.083(R)|      SLOW  |         6.161(R)|      FAST  |pixel_clk         |   0.000|
+rgb<7>      |        20.220(R)|      SLOW  |         6.232(R)|      FAST  |pixel_clk         |   0.000|
 ------------+-----------------+------------+-----------------+------------+------------------+--------+
 
 Clock to Setup on destination clock Clk
@@ -71,7 +71,7 @@ Clock to Setup on destination clock Clk
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-Clk            |   60.414|         |         |         |
+Clk            |   64.370|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock PS2KeyboardClock
@@ -79,11 +79,11 @@ Clock to Setup on destination clock PS2KeyboardClock
                 | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock    |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ----------------+---------+---------+---------+---------+
-PS2KeyboardClock|         |         |         |    3.128|
+PS2KeyboardClock|         |         |         |    3.369|
 ----------------+---------+---------+---------+---------+
 
 
-Analysis completed Mon May 14 12:53:51 2018 
+Analysis completed Tue May 15 22:14:32 2018 
 --------------------------------------------------------------------------------
 
 Trace Settings:

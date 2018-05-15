@@ -52,5 +52,4 @@ begin
 	
 	lane_out <= s_D;
 
-
 end Behavioral;

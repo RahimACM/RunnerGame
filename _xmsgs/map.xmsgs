@@ -20,7 +20,89 @@
 <msg type="info" file="Map" num="215" delta="old" >The Interim Design Summary has been generated in the MAP Report (.mrp).
 </msg>
 
+<msg type="internal" file="Portability" num="0" delta="new" srcfile="Port_MsgStreamImp.c" srcline="468" srcrcs="1.20" >Unable to delete requested message stream.
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">HS</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">VS</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;0&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;1&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;2&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;3&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;4&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;5&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;6&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1583" delta="new" >output IO named &quot;<arg fmt="%s" index="1">rgb&lt;7&gt;</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1531" delta="new" >Input IO named &quot;<arg fmt="%s" index="1">Clk</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1531" delta="new" >Input IO named &quot;<arg fmt="%s" index="1">PS2KeyboardClock</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1531" delta="new" >Input IO named &quot;<arg fmt="%s" index="1">PS2KeyboardData</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1531" delta="new" >Input IO named &quot;<arg fmt="%s" index="1">paused</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1531" delta="new" >Input IO named &quot;<arg fmt="%s" index="1">reset</arg>&quot; has invalid Bank assignment
+</msg>
+
+<msg type="warning" file="Power" num="1337" delta="new" >Clock frequency for clock net &quot;<arg fmt="%s" index="1">PS2KeyboardClock_BUFGP</arg>&quot; is zero.
+</msg>
+
+<msg type="warning" file="Power" num="1337" delta="new" >Clock frequency for clock net &quot;<arg fmt="%s" index="1">PS2KeyboardClock_BUFGP/IBUFG</arg>&quot; is zero.
+</msg>
+
+<msg type="warning" file="Power" num="1337" delta="new" >Clock frequency for clock net &quot;<arg fmt="%s" index="1">game_mechanics/enable_obst_update</arg>&quot; is zero.
+</msg>
+
+<msg type="warning" file="Power" num="1337" delta="new" >Clock frequency for clock net &quot;<arg fmt="%s" index="1">game_mechanics/enable_obst_update_BUFG</arg>&quot; is zero.
+</msg>
+
+<msg type="warning" file="Power" num="1337" delta="new" >Clock frequency for clock net &quot;<arg fmt="%s" index="1">game_mechanics/lose_state</arg>&quot; is zero.
+</msg>
+
+<msg type="warning" file="Power" num="1337" delta="new" >Clock frequency for clock net &quot;<arg fmt="%s" index="1">keyboard_controller/scancodeReady</arg>&quot; is zero.
+</msg>
+
+<msg type="warning" file="Power" num="1369" delta="new" >Clock frequency for one or more clocks was not found through
+timing constraints (PCF file) or simulation data.  Without knowing the
+clock frequency of all clocks, dynamic power information for those clock
+domains will default to zero which may under-estimate the power for this
+design.  To avoid this warning, provide at least one of the following:
+  1. The proper timing constraints (PERIOD) for clocks (re-implement design
+     and load the newly generated PCF file into XPower Analyzer)
+  2. A post PAR simulation-generated VCD or SAIF file indicating clock
+     frequencies
+  3. The clock frequency for clocks in the &quot;By Type -&gt; Clocks&quot; view in the
+     XPower Analyzer GUI and then applying &quot;Update Power Analysis&quot;
+</msg>
+
 <msg type="info" file="Pack" num="1650" delta="old" >Map created a placed design.
+</msg>
+
+<msg type="info" file="Map" num="207" delta="new" >Power optimization/reduction has been run on this design. Please use XPower to analyze and report the power usage for this design.
 </msg>
 
 </messages>

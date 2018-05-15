@@ -81,7 +81,7 @@ port(
    VS          : out std_logic;
    hcount      : out std_logic_vector(10 downto 0);
    vcount      : out std_logic_vector(10 downto 0);
-   blank       : out std_logic
+	blank       : out std_logic
 );
 end vga_controller_640_60;
 
