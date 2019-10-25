@@ -1,3 +1,8 @@
-# RunnerGame
-A project written in VHDL which consists of a game where the player has an object and try to avoid it from the obstacles generated randomly.
-The player try to stay alive as long as possible where everu second is counted in the score and he has 3 chances of crush before getting the lose state.
+# Runner Game
+A game written in VHDL which consists of a player who has an object and tries to avoid the obstacles generated randomly.
+
+## How does it work?
+The player tries to stay alive for as long as possible and every second that passes is added in the score. The player has 3 lives, which means that he can crush 3 times before losing.
+
+## Used technologies
+VHDL
